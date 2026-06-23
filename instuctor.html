@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yoga · AI Diet Advisor + Full Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #9c7b5d;
+  --primary-dark: #7e5e43;
+  --soft-bg: #f6f1ea;
+  --dark: #2f2435;
+}
+
+body {
+ font-family: 'Poppins', sans-serif;
+  background: var(--soft-bg);
+  padding-top: 100px;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 75px;
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #ffffff, #f6f1ea);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  z-index: 1000;
+}
+
+.nav__logo { display: flex; align-items: center; gap: 1px; }
+.nav__logo img { height: 45px; }
+.nav__logo span {  font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6B4E71, #C06C84);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent; }
+
+.nav__center { display: flex; gap: 40px; list-style: none; }
+.nav__center a {  text-decoration: none;
+  color: #000; /* DARK TEXT */
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s; }
+.nav__center a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transform: translateX(-50%);
+  transition: 0.3s;
+}
+.nav__center a:hover::after { width: 100%; }
+
+.nav__right { display: flex; gap: 15px; align-items: center; }
+.login-btn { padding: 8px 18px; background: #8a4940; color: white; border-radius: 25px; text-decoration: none; }
+.profile-icon { font-size: 18px; color: #000; transition: 0.3s; }
+.profile-icon:hover { color: var(--primary); transform: scale(1.2); }
+
+.section-title { text-align: center; font-size: 42px; margin-bottom: 40px; font-weight: 600; }
+
+/* INSTRUCTORS GRID */
+.instructors-grid {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+.instructor-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: left;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateY(40px);
+}
+.instructor-card.show { opacity: 1; transform: translateY(0); }
+.instructor-card:hover { transform: translateY(-8px); }
+.instructor-card img { width: 100%; height: 220px; object-fit: cover; border-radius: 15px; margin-bottom: 15px; }
+.instructor-card h3 { font-size: 20px; margin-bottom: 5px; }
+.role { color: var(--primary); font-size: 14px; margin-bottom: 8px; font-weight: 600; }
+.stars { color: orange; margin-bottom: 10px; }
+.mini-info { font-size: 12px; color: #777; margin-top: 8px; }
+
+/* TOGGLE BUTTONS */
+.toggle-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+}
+.toggle-btn {
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background: white;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.toggle-btn.active { background: var(--primary); color: white; }
+
+.toggle-section { display: none; }
+.toggle-section.visible { display: block; }
+
+/* SCHEDULE TABLE */
+.schedule-container {
+  max-width: 1100px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  overflow-x: auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+.schedule-table th {
+  background: var(--primary);
+  color: white;
+  padding: 15px;
+  font-weight: 600;
+}
+.schedule-table td {
+  padding: 14px;
+  border-bottom: 1px solid #f0e4d9;
+}
+.schedule-table tr:hover {
+  background: #faf2fc;
+  transition: 0.3s;
+}
+.time-badge {
+  background: #f3ebe4;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 14px;
+  display: inline-block;
+}
+.class-box {
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.note { font-style: italic; margin-top: 20px; color: #6b5a62; text-align: center; }
+
+/* DIET SECTION - ORIGINAL STYLE */
+.diet-grid {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.diet-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: 0.3s;
+}
+.diet-card:hover { transform: translateY(-5px); }
+.diet-icon { font-size: 36px; margin-bottom: 10px; }
+.diet-card h4 { font-size: 20px; margin-bottom: 8px; }
+.diet-card p { font-size: 14px; color: #666; margin-bottom: 10px; }
+.diet-tag {
+  background: #e8ddd0;
+  padding: 6px 12px;
+  border-radius: 40px;
+  font-size: 12px;
+  display: inline-block;
+  color: #5c4b3a;
+}
+
+/* AI CONTAINER - ORIGINAL YOGA STYLE */
+.ai-inside-box {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(4px);
+  border-radius: 40px;
+  padding: 30px;
+  margin: 20px 0;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+.ai-header span {
+  background: var(--primary);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 15px;
+}
+.ai-header h3 { font-size: 24px; font-weight: 600; color: #2c2c2c; }
+
+/* User Inputs Row - Matching original design */
+.user-inputs-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: #f9f5f0;
+  border-radius: 30px;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.input-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5c4b3a;
+}
+.input-field select, .input-field input {
+  padding: 12px 15px;
+  border-radius: 30px;
+  border: 1px solid #e2d4ca;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  transition: 0.2s;
+}
+.input-field select:focus, .input-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(156,123,93,0.2);
+}
+
+.bmi-display {
+  background: var(--primary);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 40px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+#aiQuery {
+  flex: 3 1 260px;
+  padding: 16px 22px;
+  border: 1px solid #e2d4ca;
+  border-radius: 60px;
+  font-size: 15px;
+  background: white;
+  font-family: inherit;
+}
+#aiQuery:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(156,123,93,0.2);
+}
+#askAiInsideBtn {
+  background: var(--primary);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 60px;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+#askAiInsideBtn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(156,123,93,0.3);
+}
+
+.example-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0 20px;
+}
+.example-btn {
+  background: white;
+  border: 1px solid #e2d4ca;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.example-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.ai-output {
+  background: #faf2ec;
+  border-radius: 36px;
+  padding: 25px 30px;
+  font-size: 15px;
+  line-height: 1.6;
+  border-left: 8px solid var(--primary);
+  min-height: 140px;
+  color: #2c2c2c;
+}
+.ai-output i { color: var(--primary); font-weight: 600; }
+
+@media (max-width: 768px) {
+  body { padding: 80px 5% 30px; }
+  .section-title { font-size: 28px; }
+  .navbar { padding: 0 20px; }
+  .nav__center { gap: 15px; }
+  .ai-header h3 { font-size: 18px; }
+  .user-inputs-row { grid-template-columns: 1fr; }
+}
+body{
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.main-footer{
+  background: #3e2723;
+  color: #ffffff;
+  padding: 60px 8% 20px;
+}
+
+.footer-container{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 40px;
+}
+
+/* Logo Section */
+.footer-logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.footer-logo img{
+  width: 50px;
+}
+
+.footer-logo h2{
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.footer-about p{
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* Links */
+.footer-links h3,
+.footer-contact h3{
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.footer-links ul{
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li{
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a{
+  text-decoration: none;
+  color: #ddd;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.footer-links ul li a:hover{
+  color: #ffcc80;
+  padding-left: 5px;
+}
+
+/* Contact */
+.footer-contact p{
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+/* Bottom */
+.footer-bottom{
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  color: #ccc;
+}
+
+/* ================== RESPONSIVE ================== */
+
+@media(max-width: 992px){
+  .footer-container{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 600px){
+  .footer-container{
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav__logo">
+      <img src="../assets/logo.png" alt="Logo" onerror="this.src='https://placehold.co/45x45?text=Y'">
+      <span>E-YBOOK</span>
+    </div>
+    <ul class="nav__center">
+     <li><a href="/componets/home.html"><b>Home</b></a></li>
+    <li><a href="classes.html"><strong>Classes</strong></a></li>
+    <li><a href="instuctor.html"><b>Instuctors</b></a></li>
+    <li><a href="about.html"><b>About us</b></a></li>
+    </ul>
+    <div class="nav__right">
+      <a href="login.html" class="login-btn">Login</a>
+      <a href="profile.html" class="profile-icon"><i class="fa-solid fa-user"></i></a>
+    </div>
+  </nav>
+
+  <h2 class="section-title">Meet Our Expert Instructors</h2>
+
+  <div class="instructors-grid">
+    <div class="instructor-card"><img src="/assets/i1.jpg" alt="priya" onerror="this.src='https://placehold.co/300x220?text=Priya'"><h3>Priya Sharma</h3><span class="role">Hatha & Pranayama Specialist</span><div class="stars">★★★★★</div><div class="mini-info">🧘 1200+ Sessions | 🎓 Certified | 🌿 Online & Offline</div></div>
+    <div class="instructor-card"><img src="/assets/i2.jpg" alt="rahul" onerror="this.src='https://placehold.co/300x220?text=Rahul'"><h3>Rahul Verma</h3><span class="role">Power Yoga Trainer</span><div class="stars">★★★★★</div><div class="mini-info">🏆 Award Winner | 🔥 1500+ Sessions</div></div>
+    <div class="instructor-card"><img src="/assets/i3.jpg" alt="karan" onerror="this.src='https://placehold.co/300x220?text=Karan'"><h3>Karan Mehta</h3><span class="role">Ashtanga Yoga Trainer</span><div class="stars">★★★★★</div><div class="mini-info">🔥 Advanced Level | 🏅 8+ Years Experience</div></div>
+    <div class="instructor-card"><img src="/assets/i5.jpg" alt="meera" onerror="this.src='https://placehold.co/300x220?text=Meera'"><h3>Meera Iyer</h3><span class="role">Prenatal Yoga Specialist</span><div class="stars">★★★★☆</div><div class="mini-info">🤰 Prenatal Care | 💖 Wellness Coach</div></div>
+  </div>
+
+  <div class="toggle-buttons">
+    <button class="toggle-btn" id="btnSchedule"><i class="fa-regular fa-calendar"></i> Class Schedule</button>
+    <button class="toggle-btn" id="btnDiet"><i class="fa-solid fa-leaf"></i> AI Diet Advisor</button>
+  </div>
+
+  <!-- SCHEDULE SECTION -->
+  <div id="scheduleSection" class="toggle-section">
+    <h3 style="font-size:28px; margin:20px 0 10px; text-align:center;">🧘 Weekly Yoga Schedule</h3>
+    <div class="schedule-container">
+      <p id="todayDate" style="text-align:center; font-size:16px; margin-bottom:15px; color:#6b5a62;"></p>
+      <table class="schedule-table">
+        <thead>
+          <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+        </thead>
+        <tbody id="scheduleBody"></tbody>
+      </table>
+      <p class="note">✨ online & studio · mats provided · all levels welcome</p>
+    </div>
+  </div>
+
+  <!-- DIET + AI SECTION - ORIGINAL UI STYLE -->
+  <div id="dietSection" class="toggle-section">
+    <h3 style="font-size:28px; margin-bottom:20px;">🌱 Healthy Diet Tips · AI Recommendations</h3>
+    
+    <!-- Classic Diet Cards -->
+    <div class="diet-grid">
+      <div class="diet-card"><div class="diet-icon">🥑</div><h4>pre‑practice fuel</h4><p>Banana, dates, smoothie bowl 60‑90 min before.</p><span class="diet-tag">sattvic energy</span></div>
+      <div class="diet-card"><div class="diet-icon">🍵</div><h4>post‑flow glow</h4><p>Plant protein + healthy fats: chickpea salad, avocado.</p><span class="diet-tag">muscle repair</span></div>
+      <div class="diet-card"><div class="diet-icon">🥗</div><h4>anti‑inflammatory</h4><p>Turmeric ginger latte, berries, walnuts.</p><span class="diet-tag">🌿 ayurvedic</span></div>
+      <div class="diet-card"><div class="diet-icon">💧</div><h4>hydration ritual</h4><p>Warm lemon water, coconut water post‑session.</p><span class="diet-tag">detox</span></div>
+    </div>
+
+    <!-- AI Box -->
+    <div class="ai-inside-box">
+      <div class="ai-header">
+        <span>✨ AI</span>
+        <h3>Personalized Yoga Diet Advisor</h3>
+      </div>
+      
+      <!-- User Inputs -->
+      <div class="user-inputs-row">
+        <div class="input-field">
+          <label><i class="fa-regular fa-calendar"></i> Yoga Class</label>
+          <select id="classSelect">
+            <option value="">-- Select a class --</option>
+            <option value="Fat Burn Yoga">🔥 Fat Burn Yoga</option>
+            <option value="Belly Fat Focus">🎯 Belly Fat Focus</option>
+            <option value="Full Body Detox">🧹 Full Body Detox</option>
+            <option value="Metabolism Boost">⚡ Metabolism Boost</option>
+            <option value="Cardio Yoga">❤️ Cardio Yoga</option>
+            <option value="Body Toning">💪 Body Toning</option>
+            <option value="Sleep Improvement">😴 Sleep Improvement</option>
+            <option value="Bedtime Stretch">🌙 Bedtime Stretch</option>
+            <option value="Yoga Nidra for Sleep">🕉️ Yoga Nidra</option>
+            <option value="Stress Relief Stretch">🌸 Stress Relief</option>
+            <option value="Hormonal Balance">🌸 Hormonal Balance</option>
+            <option value="PCOS Care">💜 PCOS Care</option>
+            <option value="Menstrual Health">🩸 Menstrual Health</option>
+            <option value="Prenatal Yoga">🤰 Prenatal Yoga</option>
+            <option value="Postnatal Yoga">👶 Postnatal Yoga</option>
+            <option value="Inner Awareness Yoga">🧘 Inner Awareness</option>
+            <option value="Guided Meditation Yoga">🎧 Guided Meditation</option>
+            <option value="Vinyasa Flow">🌊 Vinyasa Flow</option>
+            <option value="Power Flow">💥 Power Flow</option>
+            <option value="Concentration Boost Yoga">🧠 Concentration Boost</option>
+            <option value="Memory Improvement Yoga">📚 Memory Improvement</option>
+          </select>
+        </div>
+        <div class="input-field">
+          <label><i class="fa-regular fa-clock"></i> Session Timing</label>
+          <select id="timingSelect">
+            <option value="morning">🌅 Morning (6-9 AM)</option>
+            <option value="afternoon">☀️ Afternoon (12-3 PM)</option>
+            <option value="evening">🌙 Evening (5-8 PM)</option>
+          </select>
+        </div>
+        <div class="input-field">
+          <label><i class="fa-solid fa-weight-scale"></i> Weight (kg)</label>
+          <input type="number" id="weightInput" value="65" step="1">
+        </div>
+        <div class="input-field">
+          <label><i class="fa-solid fa-ruler"></i> Height (cm)</label>
+          <input type="number" id="heightInput" value="165" step="1">
+        </div>
+      </div>
+      
+      <!-- BMI Display -->
+      <div class="bmi-display" id="bmiDisplay">📊 BMI: Calculating...</div>
+      
+      <!-- AI Chat Input -->
+      <div class="input-group">
+        <input type="text" id="aiQuery" placeholder="Ask anything about diet for your selected class...">
+        <button id="askAiInsideBtn"><i class="fa-regular fa-message"></i> Get AI Advice</button>
+      </div>
+      
+      <!-- Example Questions -->
+      <div class="example-buttons">
+        <button class="example-btn" data-question="What should I eat before this class?">🌅 Pre-class meal</button>
+        <button class="example-btn" data-question="Best recovery meal after this class">⚡ Post-class recovery</button>
+        <button class="example-btn" data-question="Hydration tips for this yoga style">💧 Hydration tips</button>
+        <button class="example-btn" data-question="What foods to avoid for this class?">🚫 Foods to avoid</button>
+        <button class="example-btn" data-question="Meal timing recommendations">⏰ Meal timing</button>
+      </div>
+      
+      <!-- AI Output -->
+      <div id="aiOutput" class="ai-output">
+        <i>✨ Select a yoga class, then ask any diet-related question. I'll give you personalized advice based on the specific class, timing, and your BMI!</i>
+      </div>
+    </div>
+    
+    <!-- Instructor Picks -->
+    <div style="background:#f4ebe4; border-radius:36px; padding:25px; margin-top:20px;">
+      <p><strong>⭐ Instructor Picks</strong><br>🧘 Priya: golden milk · ⚡ Rahul: protein shake · 🔥 Karan: mung dal soup · 🤰 Meera: iron-rich dates</p>
+    </div>
+  </div>
+
+<script>
+// ================= COMPLETE CLASS DATABASE =================
+const CLASS_DATABASE = {
+  "Fat Burn Yoga": { type: "weight_loss", intensity: "high", calories: "350-400", preMeal: "🍋 Warm lemon water with honey + 5 soaked almonds 30min before", postMeal: "🥑 Green smoothie: spinach, cucumber, celery, green apple, 1/2 avocado", bestFoods: "Green tea, cayenne pepper, ginger, lean proteins", avoidFoods: "Sugary drinks, processed snacks, late-night eating", mealTiming: "Small meal 1hr before, main meal 1hr after", tips: "Add MCT oil to morning coffee. Drink green tea post-class to boost metabolism." },
+  "Belly Fat Focus": { type: "weight_loss", intensity: "high", calories: "300-350", preMeal: "🍏 Green apple with cinnamon (regulates blood sugar)", postMeal: "🥗 Cabbage & carrot salad with apple cider vinegar dressing", bestFoods: "Fiber-rich veggies, lean protein, probiotics", avoidFoods: "Carbonated drinks, refined carbs, excess salt", mealTiming: "Light snack 45min before, protein-rich meal within 1hr after", tips: "Core-warming spices: black pepper, ginger. Avoid bloating foods before class." },
+  "Full Body Detox": { type: "detox", intensity: "moderate", calories: "250-300", preMeal: "🥒 Cucumber-mint-coriander detox juice", postMeal: "🍲 Khichdi (rice + mung dal) with ghee and cumin", bestFoods: "Beetroot, bitter gourd, dandelion tea, leafy greens", avoidFoods: "Caffeine, processed foods, dairy, sugar", mealTiming: "Light juice 30min before, warm meal 1hr after", tips: "No caffeine 24h before. Drink warm water throughout the day." },
+  "Metabolism Boost": { type: "weight_loss", intensity: "high", calories: "350-400", preMeal: "☕ Green coffee or matcha tea 20min before", postMeal: "🍳 2 egg whites + spinach + 1/2 sweet potato", bestFoods: "Protein-rich breakfast, spicy foods, green tea", avoidFoods: "Skipping meals, processed carbs, sugary drinks", mealTiming: "Eat every 3-4 hours. Protein within 30min of waking", tips: "Never skip breakfast. Add cayenne pepper to meals." },
+  "Cardio Yoga": { type: "cardio", intensity: "high", calories: "400-500", preMeal: "🍌 Banana + 1 tbsp peanut butter 45min before", postMeal: "💪 Chocolate protein shake + handful of walnuts", bestFoods: "Electrolytes: coconut water, bananas, dates", avoidFoods: "Heavy fatty foods before, carbonated drinks", mealTiming: "Carbs 1hr before, protein within 30min after", tips: "Hydrate with 500ml water + pinch of salt before class." },
+  "Body Toning": { type: "strength", intensity: "high", calories: "300-350", preMeal: "🍠 Small baked sweet potato", postMeal: "🥩 Lean protein (chicken/tofu) + brown rice + bell peppers", bestFoods: "Leucine-rich: cottage cheese, lentils, soy, eggs", avoidFoods: "Empty calories, excess fat, simple sugars", mealTiming: "Complex carbs 1.5hr before, protein within 45min after", tips: "Post-workout meal within 45min for muscle synthesis." },
+  "Sleep Improvement": { type: "relaxation", intensity: "low", calories: "80-100", preMeal: "🥛 Warm turmeric latte (haldi doodh) 1hr before", postMeal: "🍌 Banana with almond butter", bestFoods: "Magnesium-rich: pumpkin seeds, dark chocolate, spinach", avoidFoods: "Caffeine after 2pm, heavy dinners, spicy foods", mealTiming: "Light dinner 2hrs before bed", tips: "No screens 1hr before. Chamomile tea before bed." },
+  "Bedtime Stretch": { type: "relaxation", intensity: "low", calories: "60-80", preMeal: "🍵 Chamomile tea + 2-3 walnuts", postMeal: "🥣 Warm oatmeal with honey and cinnamon", bestFoods: "Tryptophan foods: warm milk, nuts, bananas", avoidFoods: "Heavy meals, caffeine, spicy foods", mealTiming: "Light snack 1hr before, no heavy meals 3hr before bed", tips: "Eat light dinner. No electronics before bed." },
+  "Yoga Nidra for Sleep": { type: "meditation", intensity: "low", calories: "50-70", preMeal: "🍯 1 tsp honey + pinch of salt in warm water", postMeal: "🥑 Mashed avocado on rice cracker", bestFoods: "Ashwagandha tea, warm milk, dates", avoidFoods: "Stimulants, heavy proteins, large meals", mealTiming: "Very light snack or fast before", tips: "Complete silence 30min post-class. Practice gratitude before sleep." },
+  "Stress Relief Stretch": { type: "relaxation", intensity: "low", calories: "70-90", preMeal: "🍵 Lemon balm tea + 5 almonds", postMeal: "🍎 Apple slices with peanut butter", bestFoods: "Adaptogens: ashwagandha, tulsi, brahmi", avoidFoods: "Caffeine, sugar, processed foods", mealTiming: "Light meal 2hrs before", tips: "Deep breathing with every meal. Avoid overstimulation." },
+  "Hormonal Balance": { type: "women_wellness", intensity: "moderate", calories: "150-200", preMeal: "🌱 Fenugreek water (soaked overnight)", postMeal: "🥗 Flaxseed & berry smoothie bowl", bestFoods: "Omega-3: flaxseeds, walnuts, salmon, chia", avoidFoods: "Dairy, refined sugar, processed soy", mealTiming: "Small frequent meals throughout day", tips: "Reduce dairy and refined sugar. Add evening primrose oil." },
+  "PCOS Care": { type: "women_wellness", intensity: "moderate", calories: "180-220", preMeal: "🍎 Apple cider vinegar (1 tbsp in water) 20min before", postMeal: "🥚 Egg muffins with spinach and mushrooms", bestFoods: "Low glycemic: millets, legumes, berries, cinnamon", avoidFoods: "Sugar, white flour, processed foods, dairy", mealTiming: "Eat every 3-4 hours. Protein with each meal", tips: "Inositol-rich foods: citrus fruits, beans. Spearmint tea helps." },
+  "Menstrual Health": { type: "women_wellness", intensity: "low", calories: "120-150", preMeal: "🍫 Dark chocolate (85%) + ginger tea", postMeal: "🥣 Warm moong dal soup with spinach", bestFoods: "Iron-rich: dates, beetroot, pomegranate, leafy greens", avoidFoods: "Cold drinks, caffeine, salty foods before period", mealTiming: "Small frequent meals to maintain energy", tips: "Avoid cold drinks 3 days before period. Heat packs help." },
+  "Prenatal Yoga": { type: "prenatal", intensity: "low", calories: "100-150", preMeal: "🍞 Whole grain toast with peanut butter + 1/2 banana", postMeal: "🥛 Smoothie: dates, spinach, almond milk, protein powder", bestFoods: "Folate & iron: lentils, kale, oranges, eggs", avoidFoods: "Raw fish, unpasteurized dairy, excess caffeine", mealTiming: "Small meals every 2-3 hours", tips: "Stay hydrated. Small frequent meals. Folic acid important." },
+  "Postnatal Yoga": { type: "postnatal", intensity: "low", calories: "120-150", preMeal: "🍪 Oatmeal lactation cookies", postMeal: "🥣 Warm bone broth or vegetable broth", bestFoods: "Calcium & vitamin D: fortified milk, almonds, ragi", avoidFoods: "Gas-forming foods, caffeine if breastfeeding", mealTiming: "Eat when hungry, keep snacks handy", tips: "Fenugreek seeds for milk production. Stay hydrated." },
+  "Inner Awareness Yoga": { type: "spiritual", intensity: "low", calories: "60-80", preMeal: "🍵 Tulsi (holy basil) tea only", postMeal: "🍎 Fresh seasonal fruit", bestFoods: "Sattvic: fresh, organic, vegetarian, light", avoidFoods: "Onion, garlic, spicy, stale foods", mealTiming: "Light meal 2hrs before or fast", tips: "Eat in complete silence with gratitude. Avoid overeating." },
+  "Guided Meditation Yoga": { type: "meditation", intensity: "low", calories: "40-60", preMeal: "🍯 1 tsp honey dissolved in water", postMeal: "🥛 Warm almond milk with cardamom", bestFoods: "Light meals, fresh fruits, nuts", avoidFoods: "Heavy proteins, processed foods", mealTiming: "Fast 2hrs before meditation", tips: "Eat mindfully. Meditation on an empty stomach is best." },
+  "Vinyasa Flow": { type: "dynamic", intensity: "high", calories: "350-450", preMeal: "🍌 Banana + 2 dates + handful of almonds", postMeal: "💪 Protein smoothie: plant protein + berries + spinach", bestFoods: "Quick carbs + protein 2:1 ratio", avoidFoods: "Heavy fatty foods before", mealTiming: "Light meal 1hr before, protein within 30min after", tips: "Hydrate with electrolytes during flow. Listen to your body." },
+  "Power Flow": { type: "dynamic", intensity: "high", calories: "400-500", preMeal: "☕ Black coffee or green tea + 1 rice cake", postMeal: "🥩 Grilled tofu + quinoa + broccoli", bestFoods: "BCAA-rich: eggs, chicken, soy, legumes", avoidFoods: "Heavy carbs before, processed sugars", mealTiming: "Carbs 1.5hr before, protein within 45min after", tips: "Post-workout carb window: 30min. Stretch after meals." },
+  "Concentration Boost Yoga": { type: "focus", intensity: "moderate", calories: "150-200", preMeal: "🍵 Matcha green tea + 5 walnuts", postMeal: "🥑 Avocado toast with pumpkin seeds", bestFoods: "Brain foods: blueberries, turmeric, coconut oil, dark chocolate", avoidFoods: "Sugar, processed carbs, heavy meals", mealTiming: "Light breakfast before, small snack after", tips: "Add MCT oil to morning coffee. Avoid sugar before class." },
+  "Memory Improvement Yoga": { type: "focus", intensity: "moderate", calories: "150-200", preMeal: "🌰 5 soaked almonds + 2 walnuts", postMeal: "🥣 Oatmeal with blueberries and flax seeds", bestFoods: "Lecithin-rich: eggs, soy, peanuts, whole grains", avoidFoods: "Sugar, trans fats, excessive alcohol", mealTiming: "Regular meals, don't skip breakfast", tips: "Add Brahmi powder to smoothies. Stay hydrated." }
+};
+
+// ================= HELPER FUNCTIONS =================
+function calculateBMI(weight, height) {
+  if (!weight || !height || height <= 0) return null;
+  const heightM = height / 100;
+  const bmi = weight / (heightM * heightM);
+  return Math.round(bmi * 10) / 10;
+}
+
+function getBMICategory(bmi) {
+  if (!bmi) return 'Unknown';
+  if (bmi < 18.5) return 'Underweight';
+  if (bmi >= 18.5 && bmi < 25) return 'Healthy';
+  if (bmi >= 25 && bmi < 30) return 'Overweight';
+  return 'Obese';
+}
+
+function updateBMIDisplay() {
+  const weight = parseFloat(document.getElementById('weightInput').value);
+  const height = parseFloat(document.getElementById('heightInput').value);
+  const bmi = calculateBMI(weight, height);
+  const category = getBMICategory(bmi);
+  const display = document.getElementById('bmiDisplay');
+  
+  if (bmi) {
+    display.innerHTML = `📊 Your BMI: ${bmi} (${category}) • Personalized advice adapts to this`;
+  } else {
+    display.innerHTML = `📊 BMI: -- (Enter valid weight & height)`;
+  }
+}
+
+function getPersonalizedAIResponse(question, className, timing, bmiCategory) {
+  const classData = CLASS_DATABASE[className];
+  if (!classData) {
+    return "✨ Please select a valid yoga class from the dropdown menu for personalized advice.";
+  }
+  
+  const q = question.toLowerCase();
+  
+  let bmiNote = "";
+  if (bmiCategory === "Underweight") bmiNote = " Since you're underweight, focus on nutrient-dense calories and healthy fats.";
+  else if (bmiCategory === "Overweight") bmiNote = " Since you're overweight, focus on portion control and fiber-rich foods.";
+  else if (bmiCategory === "Obese") bmiNote = " Start with small sustainable changes and consult a nutritionist.";
+  else bmiNote = " Your BMI is healthy - maintain balanced nutrition.";
+  
+  let timingNote = "";
+  if (timing === "morning") timingNote = "morning session: eat a light breakfast 45-60 minutes before";
+  else if (timing === "afternoon") timingNote = "afternoon session: have a light lunch 1.5-2 hours before";
+  else timingNote = "evening session: keep dinner light and eat 2 hours before";
+  
+  if (q.includes("pre") || q.includes("before") || q.includes("eat before")) {
+    return `🍽️ PRE-CLASS MEAL for ${className} (${timingNote}):\n\n${classData.preMeal}\n\n✅ Best foods: ${classData.bestFoods}\n❌ Avoid: ${classData.avoidFoods}\n📊 ${bmiNote}`;
+  }
+  else if (q.includes("post") || q.includes("after") || q.includes("recovery")) {
+    return `💪 POST-CLASS RECOVERY for ${className}:\n\n${classData.postMeal}\n\n⏰ ${classData.mealTiming}\n🔥 Calories burned: ${classData.calories} kcal\n📊 ${bmiNote}`;
+  }
+  else if (q.includes("avoid")) {
+    return `🚫 FOODS TO AVOID for ${className}:\n\n${classData.avoidFoods}\n\n✅ Instead focus on: ${classData.bestFoods}`;
+  }
+  else if (q.includes("hydrat") || q.includes("water") || q.includes("drink")) {
+    return `💧 HYDRATION GUIDE for ${className}:\n\n• Drink 400-500ml water 2 hours before class\n• Sip water during breaks if needed\n• Post-class: 500ml coconut water\n• Daily target: 2-3 liters\n\n${classData.type === "cardio" || classData.type === "dynamic" ? "⚠️ High-intensity class - add electrolytes!" : ""}`;
+  }
+  else if (q.includes("meal timing") || q.includes("when to eat")) {
+    return `⏰ MEAL TIMING for ${className}:\n\n${classData.mealTiming}\n\n📊 ${bmiNote}`;
+  }
+  else {
+    return `🧘 COMPLETE GUIDE for ${className}:\n\n📋 Type: ${classData.type} | Intensity: ${classData.intensity}\n🔥 Calories: ${classData.calories} kcal\n\n🍽️ BEFORE: ${classData.preMeal}\n🌿 AFTER: ${classData.postMeal}\n✅ BEST: ${classData.bestFoods}\n❌ AVOID: ${classData.avoidFoods}\n💡 TIP: ${classData.tips}\n📊 ${bmiNote}`;
+  }
+}
+
+async function updateAiOutput() {
+  const question = document.getElementById('aiQuery').value;
+  if (!question.trim()) {
+    document.getElementById('aiOutput').innerHTML = '<i>✨ Please type a question about diet and nutrition for your yoga practice!</i>';
+    return;
+  }
+  
+  const className = document.getElementById('classSelect').value;
+  if (!className) {
+    document.getElementById('aiOutput').innerHTML = '<i>⚠️ Please select a yoga class first for personalized advice!</i>';
+    return;
+  }
+  
+  const timing = document.getElementById('timingSelect').value;
+  const weight = parseFloat(document.getElementById('weightInput').value);
+  const height = parseFloat(document.getElementById('heightInput').value);
+  const bmi = calculateBMI(weight, height);
+  const bmiCategory = getBMICategory(bmi);
+  
+  document.getElementById('aiOutput').innerHTML = '<i class="fa-solid fa-spinner fa-pulse"></i> Analyzing your class and body metrics... getting personalized advice...';
+  
+  setTimeout(() => {
+    const answer = getPersonalizedAIResponse(question, className, timing, bmiCategory);
+    document.getElementById('aiOutput').innerHTML = answer.replace(/\n/g, '<br>');
+  }, 500);
+}
+
+// ================= SCHEDULE LOAD =================
+async function loadSchedule() {
+  try {
+    const res = await fetch("http://localhost:3000/api/schedule");
+    const data = await res.json();
+    const tbody = document.getElementById("scheduleBody");
+    tbody.innerHTML = "";
+    
+    data.forEach(row => {
+      tbody.innerHTML += `<tr><td><span class="time-badge">${row.time}</span></td><td><span class="class-box">${row.monday || '-'}</span></td><td><span class="class-box">${row.tuesday || '-'}</span></td><td><span class="class-box">${row.wednesday || '-'}</span></td><td><span class="class-box">${row.thursday || '-'}</span></td><td><span class="class-box">${row.friday || '-'}</span></td><td><span class="class-box">${row.saturday || '-'}</span></td></tr>`;
+    });
+  } catch (err) {
+    console.error("Error loading schedule:", err);
+  }
+}
+
+// ================= TOGGLE & INIT =================
+const btnSchedule = document.getElementById('btnSchedule');
+const btnDiet = document.getElementById('btnDiet');
+const sectionSchedule = document.getElementById('scheduleSection');
+const sectionDiet = document.getElementById('dietSection');
+
+btnSchedule.addEventListener('click', () => {
+  btnSchedule.classList.add('active');
+  btnDiet.classList.remove('active');
+  sectionSchedule.classList.add('visible');
+  sectionDiet.classList.remove('visible');
+  loadSchedule();
+  document.getElementById("todayDate").innerText = "📅 Today: " + new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+});
+
+btnDiet.addEventListener('click', () => {
+  btnDiet.classList.add('active');
+  btnSchedule.classList.remove('active');
+  sectionDiet.classList.add('visible');
+  sectionSchedule.classList.remove('visible');
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadSchedule();
+  updateBMIDisplay();
+  document.getElementById('weightInput').addEventListener('input', updateBMIDisplay);
+  document.getElementById('heightInput').addEventListener('input', updateBMIDisplay);
+  document.getElementById('askAiInsideBtn').addEventListener('click', updateAiOutput);
+  document.getElementById('aiQuery').addEventListener('keypress', (e) => { if (e.key === 'Enter') updateAiOutput(); });
+  document.querySelectorAll('.example-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('aiQuery').value = btn.dataset.question;
+      updateAiOutput();
+    });
+  });
+  
+  // Reveal cards
+  const cards = document.querySelectorAll('.instructor-card');
+  const revealCards = () => {
+    cards.forEach(c => { if (c.getBoundingClientRect().top < window.innerHeight * 0.85) c.classList.add('show'); });
+  };
+  window.addEventListener('scroll', revealCards);
+  revealCards();
+  
+  setTimeout(() => btnDiet.click(), 100);
+});
+</script>
+<footer class="main-footer">
+    <div class="footer-container">
+      <!-- About -->
+      <div class="footer-about">
+        <div class="footer-logo">
+          <img src="../assets/logo.png" alt="Logo">
+          <h2>E-YBOOK</h2>
+        </div>
+        <p>Transform your body and mind with our professional yoga instructors. Join us to begin your wellness journey today.</p>
+      </div>
+      
+      <!-- Our Pages -->
+      <div class="footer-links">
+        <h3>Our Pages</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Explore -->
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="instuctor.html">Instructor Profiles</a></li>
+    <li><a href="review.html">Reviews</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h3>Get In Touch</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Phondaghat, India</p>
+        <p><i class="fas fa-phone-alt"></i> +91 9130926601</p>
+        <p><i class="fas fa-envelope"></i> support@E-YBOOK@gmail.com</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 E-YBOOK | All Rights Reserved</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Yoga Classes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="../styles/classes.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+.section { display:none; }
+.section.active { display:block; }
+
+.empty {
+  text-align:center;
+  font-size:18px;
+  padding:40px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+
+  <!-- LEFT LOGO -->
+  <div class="nav__logo">
+    <img src="../assets/logo.png" alt="Logo">
+    <span>E-YBOOK</span>
+  </div>
+
+  <!-- CENTER MENU -->
+  <ul class="nav__center">
+    <li><a href="/componets/home.html"><b>Home</b></a></li>
+    <li><a href="classes.html"><strong>Classes</strong></a></li>
+    <li><a href="instuctor.html"><b>Instuctors</b></a></li>
+    <li><a href="about.html"><b>About us</b></a></li>
+  </ul>
+
+  <!-- RIGHT SIDE -->
+  <div class="nav__right">
+    <a href="login.html" class="login-btn">Login</a>
+    <a href="profile.html" class="profile-icon">
+      <i class="fa-solid fa-user"></i>
+    </a>
+  </div>
+
+</nav>
+
+
+<!-- ================= LEVEL 1 ================= -->
+<section class="section active" id="mainSection">
+  <h1>Yoga Categories</h1>
+
+  <div class="card-container">
+
+    <div class="card">
+      <img src="../assets/l1sp.jpg">
+      <h3>Weight Management</h3>
+      <button onclick="showSection('weight')">View</button>
+    </div>
+
+    <div class="card">
+      <img src="../assets/womenwellness.jpg">
+      <h3>Women Wellness</h3>
+      <button onclick="showSection('women')">View</button>
+    </div>
+
+    <div class="card">
+      <img src="../assets/spiritual.jpg">
+      <h3>Spiritual Growth</h3>
+      <button onclick="showSection('spiritual')">View</button>
+    </div>
+
+    <div class="card">
+      <img src="../assets/sleep.jpg">
+      <h3>Sleep & Relaxation</h3>
+      <button onclick="showSection('sleep')">View</button>
+    </div>
+
+    <div class="card">
+      <img src="../assets/dyanmic flow.jpg">
+      <h3>Dynamic Flow</h3>
+      <button onclick="showSection('flow')">View</button>
+    </div>
+
+    <div class="card">
+      <img src="../assets/focus.jpg">
+      <h3>Focus & Productivity</h3>
+      <button onclick="showSection('focus')">View</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= LEVEL 2 (STATIC) ================= -->
+<section class="section" id="weight">
+<h1>Weight Management</h1>
+
+<div class="card-container">
+
+<div class="card">
+<img src="../assets/l31.jpg">
+<h3>Fat Burn Yoga</h3>
+
+<button onclick="loadDetails('Fat Burn Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/l21.jpg">
+<h3>Belly Fat Focus</h3>
+
+<button onclick="loadDetails('Belly Fat Focus')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/l1sp.jpg">
+<h3>Full Body Detox</h3>
+
+<button onclick="loadDetails('Full Body Detox')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/a2.jpg">
+<h3>Metabolism Boost</h3>
+
+<button onclick="loadDetails('Metabolism Boost')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/a3.jpg">
+<h3>Cardio Yoga</h3>
+
+<button onclick="loadDetails('Cardio Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/a4.jpg">
+<h3>Body Toning</h3>
+
+<button onclick="loadDetails('Body Toning')">View Details</button></div>
+
+</div>
+
+<button class="back-btn" onclick="goBack()">← Back</button>
+</section>
+
+
+<!-- ================= SLEEP ================= -->
+<section class="section" id="sleep">
+<h1>Sleep & Relaxation</h1>
+
+<div class="card-container">
+
+<div class="card">
+<img src="../assets/d1.jpg">
+<h3>Sleep Improvement</h3>
+
+<button onclick="loadDetails('Sleep Improvement')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/d2.jpg">
+<h3>Bedtime Stretch</h3>
+<p>Light pre-sleep stretches</p>
+<button onclick="loadDetails('Bedtime Stretch')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/d3.jpg">
+<h3>Night Relaxation</h3>
+
+<button onclick="loadDetails('Night Relaxation')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/d4.jpg">
+<h3>Yoga Nidra for Sleep</h3>
+
+<button onclick="loadDetails('Yoga Nidra for Sleep')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/d5.jpg">
+<h3>Stress Relief Stretch</h3>
+
+<button onclick="loadDetails('Stress Relief Stretch')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/d6.jpg">
+<h3>Deep Rest</h3>
+
+<button onclick="loadDetails('Deep Rest')">View Details</button>
+</div>
+
+</div>
+
+<button class="back-btn" onclick="goBack()">← Back</button>
+</section>
+
+
+<!-- ================= WOMEN ================= -->
+<section class="section" id="women">
+<h1>Women Wellness</h1>
+
+<div class="card-container">
+
+<div class="card">
+<img src="../assets/b1.jpg">
+<h3>Hormonal Balance</h3>
+<button onclick="loadDetails('Hormonal Balance')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/b2.jpg">
+<h3>PCOS Care</h3>
+
+<button onclick="loadDetails('PCOS Care')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/b3.jpg">
+<h3>Menstrual Health</h3>
+
+<button onclick="loadDetails('Menstrual Health')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/b4.jpg">
+<h3>Prenatal Yoga</h3>
+
+<button onclick="loadDetails('Prenatal Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/b5.jpg">
+<h3>Postnatal Yoga</h3>
+
+<button onclick="loadDetails('Postnatal Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/b6.jpg">
+<h3>Pelvic Strength</h3>
+
+<button onclick="loadDetails('Pelvic Strength')">View Details</button>
+</div>
+
+</div>
+
+<button class="back-btn" onclick="goBack()">← Back</button>
+</section>
+
+<!-- ================= SPIRITUAL ================= -->
+<section class="section" id="spiritual">
+<h1>Spiritual Growth Yoga</h1>
+
+<div class="card-container">
+
+<div class="card">
+<img src="../assets/c1.jpg">
+<h3>Inner Awareness Yoga</h3>
+
+<button onclick="loadDetails('Inner Awareness Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/c2.jpg">
+<h3>Conscious Breathing</h3>
+
+<button onclick="loadDetails('Conscious Breathing')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/c3.jpg">
+<h3>Guided Meditation Yoga</h3>
+
+<button onclick="loadDetails('Guided Meditation Yoga')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/c4.jpg">
+<h3>Self Reflection Yoga</h3>
+
+<button onclick="loadDetails('Self Reflection Yoga')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/c5.jpg">
+<h3>Awareness Practice</h3>
+
+<button onclick="loadDetails('Awareness Practice')">View Details</button>
+
+</div>
+
+<div class="card">
+<img src="../assets/c6.jpg">
+<h3>Inner Peace Flow</h3>
+
+<button onclick="loadDetails('Inner Peace Flow')">View Details</button>
+</div>
+
+</div>
+
+<button class="back-btn" onclick="goBack()">← Back</button>
+</section>
+
+<!-- ================= Dynamic flow yoga ================= -->
+<section class="section" id="flow">
+<h1>Dynamic Flow Yoga</h1>
+
+<div class="card-container">
+
+<div class="card">
+<img src="../assets/e1.jpg">
+<h3>Vinyasa Flow</h3>
+
+<button onclick="loadDetails('Vinyasa Flow')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/e2.jpg">
+<h3>Power Flow</h3>
+
+<button onclick="loadDetails('Power Flow')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/e3.jpg">
+<h3>Cardio Yoga Flow</h3>
+
+<button onclick="loadDetails('Cardio Yoga Flow')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/e4.jpg">
+<h3>Face Yoga</h3>
+
+<button onclick="loadDetails('Face Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/e5.jpg">
+<h3>Sweat & Stretch Yoga</h3>
+
+<button onclick="loadDetails('Sweat & Stretch Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/e6.jpg">
+<h3>Athletic Yoga Flow</h3>
+
+<button onclick="loadDetails('Athletic Yoga Flow')">View Details</button>
+</div>
+
+</div>
+
+<button class="back-btn" onclick="goBack()">← Back</button>
+</section>
+
+
+<!-- ================= FOCUS AND PRODUCTIVITY ================= -->
+<section class="section" id="focus">
+<h1>Focus & Productivity Yoga</h1>
+
+<div class="card-container">
+
+<div class="card">
+<img src="../assets/f1.jpg">
+<h3>Concentration Boost Yoga</h3>
+
+<button onclick="loadDetails('Concentration Boost Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/f2.jpg">
+<h3>Mental Clarity Yoga</h3>
+
+<button onclick="loadDetails('Mental Clarity Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/f3.jpg">
+<h3>Brain Refresh Yoga</h3>
+
+<button onclick="loadDetails('Brain Refresh Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/f4.jpg">
+<h3>Memory Improvement Yoga</h3>
+
+<button onclick="loadDetails('Memory Improvement Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/f5.jpg">
+<h3>Mind Reset Yoga</h3>
+
+<button onclick="loadDetails('Mind Reset Yoga')">View Details</button>
+</div>
+
+<div class="card">
+<img src="../assets/f6.jpg">
+<h3>Focused Breathing Yoga</h3>
+
+<button onclick="loadDetails('Focused Breathing Yoga')">View Details</button>
+</div>
+
+</div>
+
+<button class="back-btn" onclick="goBack()">← Back</button>
+</section> 
+
+
+<!-- ================= LEVEL 3 ================= -->
+<section class="section" id="classDetailsSection">
+  <div id="classDetails"></div>
+
+</section>
+
+<script>
+
+const API_URL = "http://localhost:3000/api/classes";
+let allClasses = [];
+let lastSection = "mainSection";
+
+/* ================= LOAD ================= */
+async function loadClasses(){
+  try{
+    const res = await fetch(API_URL);
+    allClasses = await res.json();
+    console.log(allClasses);
+  }catch(err){
+    alert("Backend not connected!");
+  }
+}
+
+/* ================= LOAD DETAILS (FIXED) ================= */
+async function loadDetails(name){
+  // Save current section for back button
+  parentSection = document.querySelector(".section.active")?.id || "mainSection";
+
+  let c;
+  try {
+    // Fetch latest data for all classes
+    const res = await fetch(API_URL);
+    const classes = await res.json();
+    c = classes.find(x => x.name.toLowerCase().trim() === name.toLowerCase().trim());
+  } catch(err){
+    alert("Backend not connected!");
+    return;
+  }
+
+  if(!c){
+    document.getElementById("classDetails").innerHTML =
+      `<div class="empty">No details found 😕</div>`;
+    showSection("classDetailsSection");
+    return;
+  }
+
+  // Render level 3 details
+  document.getElementById("classDetails").innerHTML = `
+    <div class="level3-card">
+      <div class="level3-image">
+        <img src="${c.image}">
+      </div>
+      <div class="level3-content">
+        <h2>${c.name}</h2>
+        <p>${c.description || "No description available"}</p>
+        <div class="class-details">
+          <p><strong>Level:</strong> ${c.level}</p>
+          <p><strong>Duration:</strong> ${c.duration}</p>
+          <p><strong>Price:</strong> ₹${c.price} / session</p>
+          <p><strong>Instructor:</strong> ${c.instructor}</p>
+          <p><strong>Calories Burn:</strong> ${c.calories || caloriesMap[c.name] || "Not specified"}</p>
+         
+        </div>
+
+        <button 
+          class="book-btn" 
+          onclick="goToBook('${c.name}', ${c.price})"
+          ${c.seats === 0 ? "disabled" : ""}>
+          ${c.seats === 0 ? "Full" : "Book Now"}
+        </button>
+
+        <button class="back-btn" onclick="goBackToLevel2()">← Back</button>
+      </div>
+    </div>
+  `;
+
+  showSection("classDetailsSection");
+}
+/* ================= NAV ================= */
+function showSection(id){
+  // lastSection = document.querySelector(".section.active")?.id || "mainSection";
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function goBack(){
+  showSection("mainSection");
+}
+
+function goBackToLevel2(){
+  if(parentSection){
+    showSection(parentSection);
+  } else {
+    showSection("mainSection");
+  }
+}
+
+/* ================= BOOK ================= */
+function goToBook(name, price){
+  if(localStorage.getItem("isLoggedIn") === "true"){
+    localStorage.setItem("selectedClass", name);
+    localStorage.setItem("selectedPrice", price);
+    window.location.href = "booking.html";
+    return;
+  } 
+
+  alert("Login first!");
+  window.location.href = "login.html";
+}
+
+/* ================= INIT ================= */
+loadClasses();
+
+// Map class names to calories
+const caloriesMap = {
+  // Weight Management (6)
+  "Metabolism Boost": "250 kcal",
+  "Fat Burn Yoga": "300 kcal",
+  "Belly Fat Focus": "280 kcal",
+  "Full Body Detox": "350 kcal",
+  "Cardio Yoga": "400 kcal",
+  "Body Toning": "320 kcal",
+
+  // Sleep & Relaxation (6)
+  "Yoga Nidra for Sleep": "100 kcal",
+  "Sleep Improvement": "120 kcal",
+  "Bedtime Stretch": "80 kcal",
+  "Night Relaxation": "90 kcal",
+  "Stress Relief Stretch": "85 kcal",
+  "Deep Rest": "95 kcal",
+
+  // Women Wellness (6)
+  "Hormonal Balance": "150 kcal",
+  "PCOS Care": "140 kcal",
+  "Menstrual Health": "130 kcal",
+  "Prenatal Yoga": "120 kcal",
+  "Postnatal Yoga": "110 kcal",
+  "Pelvic Strength": "160 kcal",
+
+  // Spiritual Growth (6)
+  "Inner Awareness Yoga": "100 kcal",
+  "Conscious Breathing": "90 kcal",
+  "Guided Meditation Yoga": "80 kcal",
+  "Self Reflection Yoga": "85 kcal",
+  "Awareness Practice": "95 kcal",
+  "Inner Peace Flow": "110 kcal",
+
+  // Dynamic Flow (6)
+  "Vinyasa Flow": "350 kcal",
+  "Power Flow": "400 kcal",
+  "Cardio Yoga Flow": "300 kcal",
+  "Face Yoga": "150 kcal",
+  "Sweat & Stretch Yoga": "380 kcal",
+  "Athletic Yoga Flow": "450 kcal",
+
+  // Focus & Productivity (6)
+  "Concentration Boost Yoga": "200 kcal",
+  "Mental Clarity Yoga": "250 kcal",
+  "Brain Refresh Yoga": "220 kcal",
+  "Memory Improvement Yoga": "230 kcal",
+  "Mind Reset Yoga": "200 kcal",
+  "Focused Breathing Yoga": "180 kcal"
+};
+</script>
+<footer class="main-footer">
+    <div class="footer-container">
+      <!-- About -->
+      <div class="footer-about">
+        <div class="footer-logo">
+          <img src="../assets/logo.png" alt="Logo">
+          <h2>E-YBOOK</h2>
+        </div>
+        <p>Transform your body and mind with our professional yoga instructors. Join us to begin your wellness journey today.</p>
+      </div>
+      
+      <!-- Our Pages -->
+      <div class="footer-links">
+        <h3>Our Pages</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Explore -->
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="instuctor.html">Instructor Profiles</a></li>
+    <li><a href="review.html">Reviews</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h3>Get In Touch</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Phondaghat, India</p>
+        <p><i class="fas fa-phone-alt"></i> +91 9130926601</p>
+        <p><i class="fas fa-envelope"></i> support@E-YBOOK@gmail.com</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 E-YBOOK | All Rights Reserved</p>
+    </div>
+  </footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

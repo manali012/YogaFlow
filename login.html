@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Yoga Auth</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --primary:#7a8f7c;
+  --text:#2f3e36;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:url("../assets/logbg.jpeg") center/cover no-repeat;
+  padding:20px;
+}
+
+body::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.25);
+  z-index:0;
+}
+
+.container{
+  width:100%;
+  max-width:380px;
+  min-height:520px;
+  padding:35px;
+  position:relative;
+  z-index:1;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(18px);
+  border-radius:25px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.35);
+  overflow:hidden;
+}
+
+.logo{text-align:center;margin-bottom:20px;}
+.logo img{width:50px;}
+
+h1{text-align:center;color:white;}
+p{text-align:center;color:#f1f1f1;font-size:14px;margin-bottom:20px;}
+
+.input-box{
+  background:rgba(255,255,255,0.35);
+  padding:14px;
+  border-radius:14px;
+  margin-bottom:15px;
+}
+
+.input-box input{
+  width:100%;
+  border:none;
+  background:transparent;
+  outline:none;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:var(--primary);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.links{
+  margin-top:15px;
+  text-align:center;
+  font-size:14px;
+  color:white;
+}
+
+.links span{
+  font-weight:600;
+  cursor:pointer;
+}
+
+.forgot{
+  text-align:right;
+  margin-bottom:15px;
+  font-size:13px;
+  cursor:pointer;
+  color:white;
+}
+
+.page{
+  position:absolute;
+  width:100%;
+  top:0;
+  left:0;
+  opacity:0;
+  transform:translateX(50px);
+  transition:0.5s ease;
+  pointer-events:none;
+}
+
+.page.active{
+  opacity:1;
+  transform:translateX(0);
+  pointer-events:auto;
+  position:relative;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div class="page active" id="login">
+  <div class="logo">
+    <img src="../assets/logo.png">
+  </div>
+  <h1>Welcome Back!</h1>
+  <p>Login to your account</p>
+
+  <div class="input-box">
+    <input type="text" id="loginEmail" placeholder="Email">
+  </div>
+
+  <div class="input-box">
+    <input type="password" id="loginPassword" placeholder="Password">
+  </div>
+
+  <div class="forgot" onclick="showPage('forgot')">Forgot password?</div>
+
+  <button onclick="login()">Sign In</button>
+
+  <div class="links">
+    Don’t have an account? <span onclick="showPage('signup')">Sign up</span>
+  </div>
+</div>
+
+<!-- SIGNUP -->
+<div class="page" id="signup">
+  <div class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/2905/2905044.png">
+  </div>
+  <h1>Create Account</h1>
+  <p>Join to book yoga classes</p>
+
+  <div class="input-box">
+    <input type="text" id="signupName" placeholder="Full Name">
+  </div>
+
+  <div class="input-box">
+    <input type="text" id="signupEmail" placeholder="Email">
+  </div>
+
+  <div class="input-box">
+    <input type="password" id="signupPassword" placeholder="Password">
+  </div>
+
+  <div class="input-box">
+    <input type="password" id="signupConfirm" placeholder="Confirm Password">
+  </div>
+
+  <button onclick="signup()">Sign Up</button>
+
+  <div class="links">
+    Already have an account? <span onclick="showPage('login')">Sign in</span>
+  </div>
+</div>
+
+<!-- FORGOT -->
+<div class="page" id="forgot">
+  <div class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/2905/2905044.png">
+  </div>
+  <h1>Forgot Password</h1>
+  <p>Reset your password</p>
+
+  <div class="input-box">
+    <input type="text" id="forgotEmail" placeholder="Enter email">
+  </div>
+
+  <div class="input-box">
+    <input type="password" id="newPassword" placeholder="New Password">
+  </div>
+
+  <button onclick="resetPassword()">Reset Password</button>
+
+  <div class="links">
+    Back to <span onclick="showPage('login')">Login</span>
+  </div>
+</div>
+
+</div>
+
+<script>
+
+const API_URL = "http://localhost:3000/api/users";
+
+function showPage(pageId){
+  document.querySelectorAll('.page').forEach(page=>{
+    page.classList.remove('active');
+  });
+  document.getElementById(pageId).classList.add('active');
+}
+
+// SIGNUP
+async function signup(){
+
+  let name = document.getElementById("signupName").value;
+  let email = document.getElementById("signupEmail").value;
+  let pass = document.getElementById("signupPassword").value;
+  let confirm = document.getElementById("signupConfirm").value;
+
+  if(name=="" || email=="" || pass=="" || confirm==""){
+    alert("Fill all fields");
+    return;
+  }
+
+  if(pass !== confirm){
+    alert("Passwords do not match");
+    return;
+  }
+
+  const res = await fetch(`${API_URL}/signup`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      name:name,
+      email:email,
+      password:pass
+    })
+  });
+
+  const data = await res.json();
+
+  alert(data.message);
+
+  if(data.message === "Signup successful"){
+    showPage("login");
+  }
+}
+
+async function login(){
+  let email = document.getElementById("loginEmail").value;
+  let pass = document.getElementById("loginPassword").value;
+
+  const res = await fetch(`${API_URL}/login`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({ email, password: pass })
+  });
+
+  const data = await res.json();
+
+  if(data.message === "Login successful"){
+
+    // Save login info
+    localStorage.setItem("currentUser", JSON.stringify(data.user));
+    localStorage.setItem("isLoggedIn","true"); // ✅ Important
+
+    alert("Welcome " + data.user.name);
+
+    // Redirect after login
+    const redirectPage = localStorage.getItem("redirectAfterLogin") || 
+                         (data.user.role === "Admin" ? "admin.html" : "home.html");
+
+    localStorage.removeItem("redirectAfterLogin"); // clean up
+
+    window.location.href = redirectPage;
+
+  } else {
+    alert(data.message);
+  }
+}
+</script>
+
+</body>
+</html>

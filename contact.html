@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Wellness</title>
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="../styles/contact.css">
+</head>
+<body>
+  <!-- Original Navigation Bar (unchanged) -->
+  <!-- <nav class="navbar">
+    <div class="nav__logo">
+      <img src="../assets/logo.png" alt="Logo">
+      <span>E-YBOOK</span>
+    </div>
+    <ul class="nav__links">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="classes.html">Classes</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" class="login-btn">Login</a></li>
+    </ul>
+  </nav> -->
+
+  <nav class="navbar">
+
+  <!-- LEFT LOGO -->
+  <div class="nav__logo">
+    <img src="../assets/logo.png" alt="Logo">
+    <span>E-YBOOK</span>
+  </div>
+
+  <!-- CENTER MENU -->
+  <ul class="nav__center">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="instuctor.html">Instructor</a></li>
+    <li><a href="about.html">About Us</a></li>
+  </ul>
+
+  <!-- RIGHT SIDE -->
+  <div class="nav__right">
+    <a href="login.html" class="login-btn">Login</a>
+    <a href="profile.html" class="profile-icon">
+      <i class="fa-solid fa-user"></i>
+    </a>
+  </div>
+
+</nav>
+  <!-- Background Shapes (enhanced) -->
+  <div class="background">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+  </div>
+
+  <!-- Main Contact Section (enhanced) -->
+  <section class="contact-container">
+    <!-- LEFT SIDE - Glass Contact Info (enhanced) -->
+    <div class="glass-info">
+      <h2>Contact <span>Information</span></h2>
+      
+      <div class="info-box">
+        <div class="icon"><i class="fas fa-phone-alt"></i></div>
+        <div>
+          <h4>Phone</h4>
+          <p>+91 9130926611</p>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <div class="icon"><i class="fas fa-envelope"></i></div>
+        <div>
+          <h4>Email</h4>
+          <p>e-ybook@email.com</p>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div>
+          <h4>Location</h4>
+          <p>Phondaghat, India</p>
+        </div>
+      </div>
+      
+      <div class="social-links">
+        <a href="#" class="social-icon"><i class=""></i></a>
+        <a href="#" class="social-icon"><i class=""></i></a>
+        <a href="#" class="social-icon"><i class=""></i></a>
+      </div>
+    </div>
+    
+    <!-- RIGHT SIDE - Form (enhanced) -->
+    <div class="contact-form">
+      <h1>Let's Connect</h1>
+      <p>We would love to hear from you.</p>
+      
+      <form id="contactForm">
+        <input type="text" placeholder="Your Name" id="name" required>
+        <input type="email" placeholder="Your Email" id="email" required>
+        <textarea placeholder="Your Message" id="message" required></textarea>
+        <button type="submit" id="sendBtn">
+          <span>Send Message</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Success Popup (enhanced) -->
+  <div class="popup-overlay" id="popupOverlay"></div>
+  <div class="popup" id="popup">
+    <div class="popup-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h2>Thank You!</h2>
+    <p>Your message has been sent successfully.</p>
+    <button id="closePopup">Close</button>
+  </div>
+
+  <!-- Footer (enhanced but matches original structure) -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <!-- About -->
+      <div class="footer-about">
+        <div class="footer-logo">
+          <img src="../assets/logo.png" alt="Logo">
+          <h2>E-YBOOK</h2>
+        </div>
+        <p>Transform your body and mind with our professional yoga instructors. Join us to begin your wellness journey today.</p>
+      </div>
+      
+      <!-- Our Pages -->
+      <div class="footer-links">
+        <h3>Our Pages</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Explore -->
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="trainers.html">Instructor Profiles</a></li>
+          <li><a href="#">Class Schedules</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h3>Get In Touch</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Phondaghat, India</p>
+        <p><i class="fas fa-phone-alt"></i> +91 9130926601</p>
+        <p><i class="fas fa-envelope"></i> support@E-YBOOK@gmail.com</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 E-YBOOK | All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script> 
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.getElementById("contactForm");
+  const btn = document.getElementById("sendBtn");
+  const popup = document.getElementById("popup");
+  const overlay = document.getElementById("popupOverlay");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    if (!name || !email || !message) {
+      alert("All fields required");
+      return;
+    }
+
+    try {
+      btn.innerText = "Sending...";
+      btn.disabled = true;
+
+      const res = await fetch("http://localhost:3000/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, email, message })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        popup.classList.add("show");
+        overlay.classList.add("show");
+        form.reset();
+      } else {
+        alert(data.msg);
+      }
+
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
+    }
+
+    btn.innerText = "Send Message";
+    btn.disabled = false;
+  });
+  // Close popup
+  closeBtn.addEventListener("click", () => {
+    popup.classList.remove("show");
+    overlay.classList.remove("show");
+  });
+
+  // Optional: close on clicking overlay
+  overlay.addEventListener("click", () => {
+    popup.classList.remove("show");
+    overlay.classList.remove("show");
+  });
+
+});
+
+    
+  </script>
+</body>
+</html>

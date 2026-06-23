@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Yoga Classes Management System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="../styles/about.css">
+</head>
+
+<body>
+
+<!-- <nav class="navbar">
+  <div class="nav__logo">
+    <img src="../assets/logo.png" alt="Logo">
+    <span>E-YBOOK</span>
+  </div>
+
+  <ul class="nav__links">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="login.html" class="login-btn">Login</a></li>
+  </ul>
+</nav> -->
+<nav class="navbar">
+
+  <!-- LEFT LOGO -->
+  <div class="nav__logo">
+    <img src="../assets/logo.png" alt="Logo">
+    <span>E-YBOOK</span>
+  </div>
+
+  <!-- CENTER MENU -->
+  <ul class="nav__center">
+    <li><a href="home.html"><b>Home</b></a></li>
+    <li><a href="classes.html"><b>Classes</b></a></li>
+    <li><a href="instuctor.html"><b>Instructor</b></a></li>
+    <li><a href="about.html"><b>About Us</b></a></li>
+  </ul>
+
+  <!-- RIGHT SIDE -->
+  <div class="nav__right">
+    <a href="login.html" class="login-btn">Login</a>
+    <a href="profile.html" class="profile-icon">
+      <i class="fa-solid fa-user"></i>
+    </a>
+  </div>
+
+</nav>
+  <!-- Background Shapes (enhanced) -->
+  <div class="background">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+  </div>
+<section id="about" class="about-new">
+
+  <h2 class="section__title">About Us</h2>
+
+  <div class="about-container">
+
+    <!-- IMAGE -->
+    <div class="about-left">
+      <img src="../assets/aboutimg.jpg" alt="Yoga Instructor">
+    </div>
+
+    <!-- CONTENT -->
+    <div class="about-right">
+
+      <h3 class="about-heading">Discover a World Beyond the Mat</h3>
+
+      <p class="about-description">
+        Experience mindful yoga, expert guidance and a welcoming online community.
+      </p>
+
+      <p class="about-description">
+        Our e-Yoga platform helps you achieve balance, strength and inner peace
+        through live and recorded sessions at your own pace.
+      </p>
+
+      <!-- STATS -->
+      <div class="about-stats">
+        <div class="stat-box">
+          <h3>500+</h3>
+          <p>Happy Students</p>
+        </div>
+
+        <div class="stat-box">
+          <h3>10+</h3>
+          <p>Years Experience</p>
+        </div>
+
+        <div class="stat-box">
+          <h3>100+</h3>
+          <p>Classes Conducted</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= WHY CHOOSE SECTION ================= -->
+
+<section class="why-new">
+
+  <h2 class="section__title">Why Choose Our Yoga Platform?</h2>
+
+  <div class="why-grid">
+
+    <div class="why-card">
+      <h4>🧘 Immersive Experience</h4>
+      <p>Live interactive yoga sessions beyond just poses.</p>
+    </div>
+
+    <div class="why-card">
+      <h4>🌿 Community Driven</h4>
+      <p>Practice together with a supportive yoga family.</p>
+    </div>
+
+    <div class="why-card">
+      <h4>⏰ Flexible Schedule</h4>
+      <p>Practice anytime with recorded and live classes.</p>
+    </div>
+
+    <div class="why-card">
+      <h4>✨ Certified Instructors</h4>
+      <p>Learn safely from experienced professionals.</p>
+    </div>
+
+  </div>
+</section>
+<style>
+
+/* ================== FOOTER ================== */
+
+body{
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.main-footer{
+  background: #3e2723;
+  color: #ffffff;
+  padding: 60px 8% 20px;
+}
+
+.footer-container{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 40px;
+}
+
+/* Logo Section */
+.footer-logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.footer-logo img{
+  width: 50px;
+}
+
+.footer-logo h2{
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.footer-about p{
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* Links */
+.footer-links h3,
+.footer-contact h3{
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.footer-links ul{
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li{
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a{
+  text-decoration: none;
+  color: #ddd;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.footer-links ul li a:hover{
+  color: #ffcc80;
+  padding-left: 5px;
+}
+
+/* Contact */
+.footer-contact p{
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+/* Bottom */
+.footer-bottom{
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  color: #ccc;
+}
+
+/* ================== RESPONSIVE ================== */
+
+@media(max-width: 992px){
+  .footer-container{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 600px){
+  .footer-container{
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<footer class="main-footer">
+
+  <div class="footer-container">
+
+    <!-- About -->
+    <div class="footer-about">
+      <div class="footer-logo">
+        <img src="../assets/logo.png" alt="Logo">
+        <h2>E-YBOOK</h2>
+      </div>
+      <p>
+        Transform your body and mind with our professional yoga instructors.
+        Join us to begin your wellness journey today.
+      </p>
+    </div>
+
+    <!-- Our Pages -->
+    <div class="footer-links">
+      <h3>Our Pages</h3>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="classes.html">Classes</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Resources -->
+    <div class="footer-links">
+  <h3>Explore</h3>
+  <ul>
+    <li><a href="instuctor.html">Instructor Profiles</a></li>
+    <li><a href="review.html">Reviews</a></li>
+    <!-- <li><a href="#">Workshop Events</a></li>
+    <li><a href="#">Meditation Sessions</a></li>
+  </ul> -->
+</div>
+
+    <!-- Contact -->
+    <div class="footer-contact">
+      <h3>Get In Touch</h3>
+      <p>📍 Phondaghat, India</p>
+      <p>📞 +91 9130926601</p>
+      <p>✉ support@E-YBOOK@gmail.com</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Yoga Bliss | All Rights Reserved
+  </div>
+
+</footer>
+
+</body>
+</html>

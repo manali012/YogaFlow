@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YogaFlow | My Profile</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f7f6;
+      overflow-x: hidden;
+    }
+
+    /* ========== NAVBAR ========== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 72px;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      z-index: 1000;
+    }
+
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav__logo img {
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .nav__logo span {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6B4E71, #C06C84);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav__center {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav__center a {
+      text-decoration: none;
+      color: #1e293b;
+      font-size: 15px;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+
+    .nav__center a:hover {
+      color: #C06C84;
+    }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .login-btn {
+      padding: 8px 22px;
+      background: #C06C84;
+      color: white;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(192, 108, 132, 0.2);
+    }
+
+    .login-btn:hover {
+      background: #a7556e;
+      transform: translateY(-2px);
+    }
+
+    .profile-icon {
+      font-size: 20px;
+      color: #334155;
+      transition: 0.2s;
+    }
+
+    .profile-icon:hover {
+      color: #C06C84;
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .dashboard-container {
+      max-width: 1280px;
+      margin: 100px auto 40px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 28px;
+    }
+
+    /* ========== LEFT CARD ========== */
+    .profile-sidebar {
+      background: rgb(228, 209, 209);
+      border-radius: 32px;
+      padding: 32px 24px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 128px;
+      height: 128px;
+      margin: 0 auto;
+    }
+
+    .avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  display: block;
+  background: #eee;
+}
+
+    .upload-label {
+      position: absolute;
+      bottom: 4px;
+      right: 0;
+      background: #C06C84;
+      border-radius: 40px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .upload-label:hover {
+      background: #a7556e;
+    }
+
+    .profile-name {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .profile-name h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .profile-name p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    .stats-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 28px 0 24px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 12px 0;
+      text-align: center;
+    }
+
+    .stat-card strong {
+      font-size: 22px;
+      font-weight: 800;
+      color: #6B4E71;
+      display: block;
+    }
+
+    .stat-card span {
+      font-size: 12px;
+      color: #475569;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(95deg, #6B4E71, #C06C84);
+      border: none;
+      padding: 12px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -8px rgba(107, 78, 113, 0.4);
+    }
+
+    .btn-outline {
+      background: linear-gradient(95deg, #9a879e, #C06C84);
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 14px;
+       color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    
+
+    .logout-btn {
+      background: #f1f5f9;
+      color: #dc2626;
+      border: 1px solid #fee2e2;
+      margin-top: 8px;
+    }
+
+    .logout-btn:hover {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    /* ========== RIGHT CONTENT ========== */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .card-modern {
+      background: white;
+      border-radius: 28px;
+      padding: 28px 32px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+      border: 1px solid #f0f2f5;
+      transition: all 0.2s;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-left: 5px solid #C06C84;
+      padding-left: 18px;
+    }
+
+    .card-header i {
+      font-size: 24px;
+      color: #C06C84;
+    }
+
+    .card-header h3 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    /* form grid */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #334155;
+    }
+
+    .input-group input,
+    .input-group select {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      transition: 0.2s;
+      background: #ffffff;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: #C06C84;
+      box-shadow: 0 0 0 3px rgba(192, 108, 132, 0.1);
+    }
+
+    .btn-update {
+      grid-column: span 2;
+      background: #1e293b;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-update:hover {
+      background: #0f172a;
+      transform: translateY(-1px);
+    }
+
+    /* progress */
+    .progress-wrapper {
+      margin: 16px 0 12px;
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      background: #e2e8f0;
+      border-radius: 40px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #6B4E71, #C06C84);
+      width: 0%;
+      height: 100%;
+      border-radius: 40px;
+      transition: width 0.4s ease;
+    }
+
+    /* diet section */
+    .diet-box {
+      background: #f9fdfb;
+      padding: 18px;
+      border-radius: 20px;
+      margin-top: 8px;
+      border: 1px solid #e6f0ec;
+    }
+
+    .diet-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eef2f0;
+    }
+
+    .diet-item:last-child {
+      border-bottom: none;
+    }
+
+    .diet-icon {
+      width: 32px;
+      color: #6B4E71;
+      font-size: 18px;
+    }
+
+    .diet-text {
+      font-size: 14px;
+      color: #2c3e2f;
+      font-weight: 500;
+    }
+
+    /* weekly schedule */
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .schedule-card {
+      background: #eef6f3;
+      padding: 14px 8px;
+      border-radius: 20px;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .schedule-card .day {
+      font-weight: 700;
+      color: #4a5b52;
+      font-size: 14px;
+    }
+
+    .schedule-card .time {
+      font-size: 13px;
+      color: #C06C84;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    /* bookings table */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .booking-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .booking-table th {
+      text-align: left;
+      padding: 16px 8px 12px 0;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 1px solid #eef2f6;
+    }
+
+    .booking-table td {
+      padding: 16px 8px 16px 0;
+      border-bottom: 1px solid #f1f5f9;
+      color: #1e293b;
+      font-size: 14px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-confirmed {
+      background: #e0f2e9;
+      color: #2b6e4f;
+    }
+
+    .status-cancelled {
+      background: #ffe8e8;
+      color: #b91c1c;
+    }
+
+    .cancel-link {
+      background: none;
+      border: none;
+      color: #dc2626;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .cancel-link:hover {
+      text-decoration: underline;
+      color: #991b1b;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 0;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 880px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-update {
+        grid-column: span 1;
+      }
+    }
+
+    body{
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.main-footer{
+  background: #3e2723;
+  color: #ffffff;
+  padding: 60px 8% 20px;
+}
+
+.footer-container{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 40px;
+}
+
+/* Logo Section */
+.footer-logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.footer-logo img{
+  width: 50px;
+}
+
+.footer-logo h2{
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.footer-about p{
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* Links */
+.footer-links h3,
+.footer-contact h3{
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.footer-links ul{
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li{
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a{
+  text-decoration: none;
+  color: #ddd;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.footer-links ul li a:hover{
+  color: #ffcc80;
+  padding-left: 5px;
+}
+
+/* Contact */
+.footer-contact p{
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+/* Bottom */
+.footer-bottom{
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  color: #ccc;
+}
+
+/* ================== RESPONSIVE ================== */
+
+@media(max-width: 992px){
+  .footer-container{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 600px){
+  .footer-container{
+    grid-template-columns: 1fr;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav__logo">
+      <img src="../assets/logo.png" alt="Logo">
+      <span>E-YBOOK</span>
+    </div>
+    <ul class="nav__center">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="classes.html">Classes</a></li>
+      <li><a href="instuctor.html">Instructor</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav__right">
+      <a href="login.html" class="login-btn">Login</a>
+    <a href="profile.html" class="profile-icon">
+      <i class="fa-solid fa-user"></i>
+      </a>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <!-- LEFT PROFILE SIDEBAR -->
+    <div class="profile-sidebar">
+      <div class="avatar-wrapper">
+        <img id="profilePic" src="../assets/default.png" alt="">
+        <label for="uploadImage" class="upload-label">
+          <i class="fas fa-camera"></i>
+        </label>
+        <input type="file" id="uploadImage" style="display: none;" accept="image/*">
+      </div>
+      <div class="profile-name">
+        <h3 id="displayName"></h3>
+        
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <strong id="classCount"></strong>
+          <span>Classes</span>
+        </div>
+        
+        
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-primary" onclick="openReview()">
+          <i class="fa-regular fa-star"></i> Write a Review
+        </button>
+        <button class="btn-outline" onclick="openContact()">
+          <i class="fa-regular fa-envelope"></i> Contact Support 
+        </button>
+        <button class="btn-outline logout-btn" onclick="logout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="right-panel">
+      <!-- EDIT PROFILE CARD -->
+      <div class="card-modern">
+        <div class="card-header">
+          <i class="fa-regular fa-pen-to-square"></i>
+          <h3>Edit Profile</h3>
+        </div>
+        <form id="profileForm">
+          <div class="form-grid">
+            <div class="input-group">
+              <label>Full Name</label>
+              <input type="text" id="fullName" placeholder="Your full name">
+            </div>
+            <div class="input-group">
+              <label>Email Address</label>
+              <input type="email" id="email" placeholder="hello@yoga.com">
+            </div>
+            <div class="input-group">
+              <label>Phone Number</label>
+              <input type="tel" id="phone" placeholder="0000-000-000">
+            </div>
+            <div class="input-group">
+              <label>Age</label>
+              <input type="number" id="age" placeholder="Years">
+            </div>
+          
+            <div class="input-group">
+              <label>City</label>
+              <input type="text" id="city">
+            </div>
+            <div class="input-group">
+              <label>Fitness Goal</label>
+              <select id="fitnessGoal">
+                <option>Weight Loss</option>
+                <option>Stress Relief</option>
+                <option>Flexibility</option>
+                <option>Strength Building</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-update"><i class="fa-regular fa-floppy-disk"></i> Save Changes</button>
+        </form>
+      </div>
+
+      
+
+
+          
+      <!-- Weekly Schedule -->
+      <div class="card-modern">
+        <div class="card-header">
+          <i class="fa-regular fa-calendar-alt"></i>
+          <h3>Weekly Schedule</h3>
+        </div>
+        <div class="schedule-grid" id="scheduleGrid">
+          <!-- dynamic schedule from js -->
+        </div>
+      </div>
+
+      <!-- BOOKING HISTORY -->
+      <div class="card-modern">
+        <div class="card-header">
+          <i class="fa-regular fa-calendar"></i>
+          <h3>My Bookings</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="booking-table">
+            <thead>
+              <tr>
+                <th>Class</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="bookingBody">
+              <tr>
+                <td colspan="5" class="empty-state">
+                  <i class="fa-regular fa-spinner fa-pulse"></i> Loading sessions...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+
+const BASE_URL = "http://localhost:3000";
+
+let userBookings = [];
+
+
+// ---------- LOAD PROFILE ----------
+async function loadProfileData() {
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (!currentUser) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/profile/${currentUser._id}`);
+    if (!res.ok) throw new Error();
+
+    const profile = await res.json();
+
+    document.getElementById("fullName").value = profile.fullName || currentUser.name || "";
+    document.getElementById("email").value = profile.email || currentUser.email || "";
+    document.getElementById("phone").value = profile.phone || "";
+    document.getElementById("age").value = profile.age || "";
+    document.getElementById("city").value = profile.city || "";
+    document.getElementById("fitnessGoal").value = profile.fitnessGoal || "";
+
+    document.getElementById("displayName").innerText =
+      profile.fullName || currentUser.name;
+
+    document.getElementById("profilePic").src =
+      profile.profileImage
+        ? BASE_URL + profile.profileImage
+        : "https://via.placeholder.com/150";
+
+  } catch (err) {
+    console.error("Profile load error:", err);
+
+    document.getElementById("fullName").value = currentUser.name || "";
+    document.getElementById("email").value = currentUser.email || "";
+    document.getElementById("displayName").innerText = currentUser.name;
+    document.getElementById("profilePic").src =
+      "https://via.placeholder.com/150";
+  }
+}
+
+
+// ---------- IMAGE PREVIEW ----------
+document.getElementById("uploadImage").addEventListener("change", function (e) {
+
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    document.getElementById("profilePic").src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+
+// ---------- SAVE PROFILE ----------
+document.getElementById("profileForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (!currentUser) return;
+
+  const formData = new FormData();
+
+  formData.append("userId", currentUser._id);
+  formData.append("fullName", fullName.value);
+  formData.append("email", email.value);
+  formData.append("phone", phone.value);
+  formData.append("age", age.value);
+  formData.append("city", city.value);
+  formData.append("fitnessGoal", fitnessGoal.value);
+
+  const fileInput = document.getElementById("uploadImage");
+
+  if (fileInput.files[0]) {
+    formData.append("profileImage", fileInput.files[0]);
+  }
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/profile`, {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    alert("✅ Profile saved");
+
+    if (data.profileImage) {
+      document.getElementById("profilePic").src =
+        BASE_URL + data.profileImage;
+    }
+
+  } catch (err) {
+    console.error("Profile save error:", err);
+    alert("❌ Error saving profile");
+  }
+});
+
+
+// ---------- LOAD BOOKINGS ----------
+async function loadBookings() {
+
+  try {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) return;
+
+    const res = await fetch(`${BASE_URL}/api/bookings/user/${currentUser._id}`);
+
+    if (!res.ok) throw new Error("API failed");
+
+    const data = await res.json();
+
+    userBookings = Array.isArray(data) ? data : [];
+
+    updateUI(userBookings);
+
+  } catch (error) {
+    console.error("Booking load error:", error);
+
+    userBookings = [];
+    updateUI([]);
+  }
+}
+
+
+// ---------- MASTER UI UPDATE ----------
+function updateUI(bookings) {
+  renderSchedule(bookings);
+  renderBookingsTable(bookings);
+  updateStats(bookings);
+}
+
+
+// ---------- SCHEDULE (AUTO APPROVED LOGIC) ----------
+function renderSchedule(bookings = []) {
+
+  const container = document.getElementById("scheduleGrid");
+
+  if (!bookings.length) {
+    container.innerHTML = `<p>No classes booked</p>`;
+    return;
+  }
+
+  const active = bookings.filter(
+    b => (b.status || "").toLowerCase() !== "cancelled"
+  );
+
+  const daysMap = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+  // group by day
+  const grouped = {};
+
+  active.forEach(b => {
+    const d = new Date(b.date);
+    if (isNaN(d)) return;
+
+    const day = daysMap[d.getDay()];
+
+    if (!grouped[day]) grouped[day] = [];
+
+    grouped[day].push({
+      time: b.time,
+      className: b.className
+    });
+  });
+
+  // build UI
+  container.innerHTML = Object.keys(grouped).length
+    ? Object.keys(grouped).map(day => {
+
+        const items = grouped[day]
+          .map(i => `
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              padding:6px 0;
+              font-size:13px;
+              border-bottom:1px solid #eee;
+            ">
+              <span>${i.time}</span>
+              <span>${i.className}</span>
+            </div>
+          `).join("");
+
+        return `
+          <div style="
+            background:#fff;
+            border-radius:16px;
+            padding:14px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.05);
+          ">
+            <h4 style="
+              margin-bottom:10px;
+              color:#6B4E71;
+              font-size:14px;
+              font-weight:700;
+            ">
+              ${day}
+            </h4>
+            ${items}
+          </div>
+        `;
+      }).join("")
+    : `<p>No classes scheduled</p>`;
+}
+
+// ---------- BOOKING TABLE ----------
+function renderBookingsTable(bookings = []) {
+
+  const tbody = document.getElementById("bookingBody");
+
+  if (!bookings.length) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5">No bookings found</td>
+      </tr>`;
+    return;
+  }
+
+  tbody.innerHTML = bookings.map(b => {
+
+    const status = (b.status || "Approved");
+
+    return `
+    <tr>
+      <td>${b.className}</td>
+      <td>${new Date(b.date).toLocaleDateString()}</td>
+      <td>${b.time}</td>
+      <td>
+        <span class="status-badge ${
+          status.toLowerCase() === "cancelled"
+            ? "status-cancelled"
+            : "status-confirmed"
+        }">
+          ${status}
+        </span>
+      </td>
+      <td>
+        ${status.toLowerCase() !== "cancelled"
+          ? `<button onclick="cancelBooking('${b._id}')">Cancel</button>`
+          : ""
+        }
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+
+// ---------- STATS (AUTO APPROVED COUNT) ----------
+function updateStats(bookings) {
+
+  const active = bookings.filter(
+    b => (b.status || "").toLowerCase() !== "cancelled"
+  );
+
+  document.getElementById("classCount").innerText = active.length;
+}
+
+
+// ---------- CANCEL ----------
+async function cancelBooking(bookingId) {
+
+  const ok = confirm("Are you sure you want to cancel?");
+  if (!ok) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/bookings/${bookingId}`, {
+      method: "DELETE"
+    });
+
+    if (!res.ok) throw new Error();
+
+    alert("Booking cancelled");
+
+    loadBookings();
+
+  } catch (err) {
+    console.error("Cancel error:", err);
+    alert("Cancel failed");
+  }
+}
+
+
+// ---------- NAV FUNCTIONS ----------
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+function openReview() {
+  window.location.href = "review.html";
+}
+
+function openContact() {
+  window.location.href = "contact.html";
+}
+
+
+// ---------- INIT ----------
+function init() {
+  loadProfileData();
+  loadBookings();
+}
+
+init();
+
+</script>
+
+</body>
+<footer class="main-footer">
+    <div class="footer-container">
+      <!-- About -->
+      <div class="footer-about">
+        <div class="footer-logo">
+          <img src="../assets/logo.png" alt="Logo">
+          <h2>E-YBOOK</h2>
+        </div>
+        <p>Transform your body and mind with our professional yoga instructors. Join us to begin your wellness journey today.</p>
+      </div>
+      
+      <!-- Our Pages -->
+      <div class="footer-links">
+        <h3>Our Pages</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Explore -->
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <ul>
+           <li><a href="instuctor.html">Instructor Profiles</a></li>
+    <li><a href="review.html">Reviews</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h3>Get In Touch</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Phondaghat, India</p>
+        <p><i class="fas fa-phone-alt"></i> +91 9130926601</p>
+        <p><i class="fas fa-envelope"></i> support@E-YBOOK@gmail.com</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 E-YBOOK | All Rights Reserved</p>
+    </div>
+  </footer>
+</html>

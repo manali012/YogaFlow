@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Reviews</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --primary:#9c7b5d;
+  --primary-dark:#7d6047;
+  --soft-bg:#f6f1ea;
+  --dark:#2f2435;
+  --card-bg:#ffffff;
+}
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins', sans-serif;
+  background:var(--soft-bg);
+  overflow-x:hidden;
+  position:relative;
+   padding-top: 40px; 
+}
+
+/* ================= NAVBAR ================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--soft-bg);
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 75px;
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  z-index: 1000;
+  background:linear-gradient(to right, #ffffff, #f6f1ea);
+}
+
+/* LOGO */
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.nav__logo img {
+  height: 45px;
+}
+
+.nav__logo span {
+   font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6B4E71, #C06C84);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+}
+
+/* CENTER MENU */
+.nav__center {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav__center a {
+  text-decoration: none;
+  color: #000; /* DARK TEXT */
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* underline animation */
+.nav__center a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: var(--primary);
+  transform: translateX(-50%);
+  transition: 0.3s;
+}
+
+.nav__center a:hover::after {
+  width: 100%;
+}
+
+.nav__center a:hover {
+  color: var(--primary);
+}
+
+/* RIGHT SIDE */
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+  padding: 8px 20px;
+  background: #8a4940;
+  color: white;
+  border-radius: 25px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(138,73,64,0.3);
+}
+
+/* PROFILE ICON */
+.profile-icon {
+  font-size: 18px;
+  color: #000;
+  transition: 0.3s;
+}
+
+.profile-icon:hover {
+  color: var(--primary);
+  transform: scale(1.2);
+}
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#f9f6f4;
+}
+body::before{
+  content:"";
+  position:absolute;
+  top:-120px;
+  left:-150px;
+  width:450px;
+  height:450px;
+  background:#e9ddcf;
+  border-radius:50%;
+  z-index:-1;
+}
+
+/* Right soft shape */
+body::after{
+  content:"";
+  position:absolute;
+  bottom:-150px;
+  right:-150px;
+  width:500px;
+  height:500px;
+  background:#efe3f7;
+  border-radius:50%;
+  z-index:-1;
+}
+/* HEADER */
+
+.review-header{
+  text-align:center;
+  padding:60px 20px 30px;
+}
+
+.review-header h1{
+  font-size:36px;
+  color:#3e2723;
+}
+
+.review-header p{
+  color:#666;
+}
+
+/* REVIEW GRID */
+
+.review-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+  padding:40px 8%;
+}
+
+/* REVIEW CARD */
+
+.review-card{
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+  transition:.3s;
+}
+
+.review-card:hover{
+  transform:translateY(-5px);
+}
+
+.review-card h3{
+  margin-bottom:5px;
+}
+
+.stars{
+  color:#f4b400;
+  margin-bottom:8px;
+}
+
+.review-card small{
+  color:#777;
+}
+
+.review-card p{
+  font-size:14px;
+  color:#555;
+}
+
+/* ADD REVIEW */
+
+.add-review{
+  background:white;
+  margin:60px 8%;
+  padding:40px;
+  border-radius:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+.rating-stars{
+  display:flex;
+  gap:5px;
+  font-size:25px;
+  cursor:pointer;
+  color:#ccc;
+}
+
+.rating-stars span.active{
+  color:#f4b400;
+}
+
+button{
+  background:#3e2723;
+  color:white;
+  padding:12px 25px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#5d4037;
+}
+.back-btn{
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background:#3e2723;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+  z-index:1000;
+}
+
+.back-btn:hover{
+  background:#5d4037;
+}
+body{
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.main-footer{
+  background: #3e2723;
+  color: #ffffff;
+  padding: 60px 8% 20px;
+}
+
+.footer-container{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 40px;
+}
+
+/* Logo Section */
+.footer-logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.footer-logo img{
+  width: 50px;
+}
+
+.footer-logo h2{
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.footer-about p{
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* Links */
+.footer-links h3,
+.footer-contact h3{
+  font-size: 18px;
+  margin-bottom: 18px;
+}
+
+.footer-links ul{
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li{
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a{
+  text-decoration: none;
+  color: #ddd;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.footer-links ul li a:hover{
+  color: #ffcc80;
+  padding-left: 5px;
+}
+
+/* Contact */
+.footer-contact p{
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+/* Bottom */
+.footer-bottom{
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  color: #ccc;
+}
+
+/* ================== RESPONSIVE ================== */
+
+@media(max-width: 992px){
+  .footer-container{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media(max-width: 600px){
+  .footer-container{
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+
+  <!-- LEFT LOGO -->
+  <div class="nav__logo">
+    <img src="../assets/logo.png" alt="Logo">
+    <span>E-YBOOK</span>
+  </div>
+
+  <!-- CENTER MENU -->
+  <ul class="nav__center">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="instuctor.html">Instructor</a></li>
+    <li><a href="about.html">About Us</a></li>
+  </ul>
+
+  <!-- RIGHT SIDE -->
+  <div class="nav__right">
+    <a href="login.html" class="login-btn">Login</a>
+    <a href="profile.html" class="profile-icon">
+      <i class="fa-solid fa-user"></i>
+    </a>
+  </div>
+
+</nav>
+<!-- HEADER -->
+
+<div class="review-header">
+  <h1>Reviews</h1>
+  <p>See what our yoga students say about their journey with us</p>
+</div>
+
+<!-- REVIEWS -->
+
+<div class="review-container" id="reviewContainer"></div>
+
+<!-- ADD REVIEW -->
+
+<div class="add-review">
+
+<h2>Leave a Review</h2>
+
+<form onsubmit="addReview(event)">
+
+<div class="form-group">
+<input type="text" id="name" placeholder="Your Name" required>
+</div>
+
+<div class="form-group">
+<select id="classType" required>
+<option value="">Select Class</option>
+<option value="Hatha Yoga">Hatha Yoga</option>
+<option value="Vinyasa Flow">Vinyasa Flow</option>
+<option value="Meditation">Meditation</option>
+</select>
+</div>
+
+<div class="form-group">
+<div class="rating-stars" id="starRating">
+<span data-value="1">★</span>
+<span data-value="2">★</span>
+<span data-value="3">★</span>
+<span data-value="4">★</span>
+<span data-value="5">★</span>
+</div>
+</div>
+
+<div class="form-group">
+<textarea id="reviewText" placeholder="Write your review..." required></textarea>
+</div>
+
+<button type="submit">Submit Review</button>
+
+</form>
+
+</div>
+<!-- BACK BUTTON -->
+<button class="back-btn" onclick="goBack()">← Back</button>
+<script>
+
+/* API */
+
+const API_URL = "http://localhost:3000/api/reviews";
+
+/* STAR RATING */
+
+let selectedRating = 0;
+const stars = document.querySelectorAll("#starRating span");
+
+stars.forEach(star=>{
+  star.addEventListener("click",()=>{
+    selectedRating = star.dataset.value;
+    updateStars(selectedRating);
+  })
+});
+
+function updateStars(rating){
+  stars.forEach(star=>{
+    star.classList.toggle("active", star.dataset.value <= rating);
+  })
+}
+
+/* LOAD REVIEWS FROM DATABASE */
+
+async function loadReviews(){
+
+  const res = await fetch(API_URL);
+  const reviews = await res.json();
+
+  const container = document.getElementById("reviewContainer");
+  container.innerHTML = "";
+
+  reviews.forEach(r=>{
+
+    const card = document.createElement("div");
+    card.classList.add("review-card");
+
+    card.innerHTML = `
+      <h3>${r.name}</h3>
+      <div class="stars">${"★".repeat(r.rating)}</div>
+      <small>${r.classType}</small>
+      <p>${r.text}</p>
+    `;
+
+    container.appendChild(card);
+
+  });
+
+}
+
+/* ADD REVIEW */
+
+async function addReview(event){
+
+  event.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const classType = document.getElementById("classType").value;
+  const text = document.getElementById("reviewText").value;
+
+  if(selectedRating === 0){
+    alert("Please select rating");
+    return;
+  }
+
+  const res = await fetch(API_URL,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      name,
+      classType,
+      rating:selectedRating,
+      text
+    })
+  });
+
+  const data = await res.json();
+
+  alert(data.message);
+
+  document.querySelector("form").reset();
+  updateStars(0);
+  selectedRating = 0;
+
+  loadReviews();
+}
+
+/* INITIAL LOAD */
+
+loadReviews();
+function goBack(){
+  window.history.back();
+}
+</script>
+<footer class="main-footer">
+    <div class="footer-container">
+      <!-- About -->
+      <div class="footer-about">
+        <div class="footer-logo">
+          <img src="../assets/logo.png" alt="Logo">
+          <h2>E-YBOOK</h2>
+        </div>
+        <p>Transform your body and mind with our professional yoga instructors. Join us to begin your wellness journey today.</p>
+      </div>
+      
+      <!-- Our Pages -->
+      <div class="footer-links">
+        <h3>Our Pages</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Explore -->
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <ul>
+           <li><a href="instuctor.html">Instructor Profiles</a></li>
+    <li><a href="review.html">Reviews</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h3>Get In Touch</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Phondaghat, India</p>
+        <p><i class="fas fa-phone-alt"></i> +91 9130926601</p>
+        <p><i class="fas fa-envelope"></i> support@E-YBOOK@gmail.com</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 E-YBOOK | All Rights Reserved</p>
+    </div>
+  </footer>
+</body>
+</html>

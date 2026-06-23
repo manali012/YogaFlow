@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Your Yoga Session</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../styles/book.css">
+
+<style>
+.qr-section{
+  display:none;
+  text-align:center;
+  margin-top:15px;
+}
+.qr-section img{
+  width:200px;
+  border-radius:10px;
+}
+.qr-price{
+  margin-top:10px;
+  font-weight:500;
+  color:#333;
+}
+.pay-check{
+  margin-top:10px;
+}
+#previewImg{
+  margin-top:10px;
+  width:200px;
+  display:none;
+  border-radius:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav__logo">
+    <img src="../assets/logo.png" alt="Logo">
+    <span>E-YBOOK</span>
+  </div>
+
+  <ul class="nav__center">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="classes.html">Classes</a></li>
+    <li><a href="instuctor.html">Instructor</a></li>
+    <li><a href="about.html">About Us</a></li>
+  </ul>
+
+  <div class="nav__right">
+    <a href="login.html" class="login-btn">Login</a>
+    <a href="profile.html" class="profile-icon">
+      <i class="fa-solid fa-user"></i>
+    </a>
+  </div>
+</nav>
+
+<!-- LOGIN CHECK -->
+<script>
+if(localStorage.getItem("isLoggedIn") !== "true"){
+  localStorage.setItem("redirectAfterLogin","booking.html")
+  window.location.href="login.html"
+}
+</script>
+
+<div class="booking-wrapper">
+
+<div class="booking-image">
+<img src="../assets/booking.jpg">
+</div>
+
+<div class="booking-form">
+
+<p class="small-text">READY WHEN YOU ARE</p>
+<h1>Book Your Yoga Session</h1>
+
+<p class="sub-text">Secure your spot in just a few clicks.</p>
+
+<div id="priceBox" class="selected-price"></div>
+
+<form id="bookingForm">
+
+<div class="row">
+<input type="text" name="firstName" placeholder="First Name" required>
+<input type="text" name="lastName" placeholder="Last Name" required>
+</div>
+
+<input type="email" name="email" placeholder="Email" required>
+
+<input type="tel" name="phone" placeholder="Phone Number"
+pattern="[0-9]{10}" maxlength="10" required>
+
+<input type="text" name="address" placeholder="Home Address">
+
+<div class="row">
+<input type="date" name="date" required>
+
+<select name="timeSlot" required>
+<option value="">Select Time Slot</option>
+<option value="6:00 AM - 7:00 AM">6:00 AM - 7:00 AM</option>
+<option value="7:00 AM - 8:00 AM">7:00 AM - 8:00 AM</option>
+<option value="8:00 AM - 9:00 AM">8:00 AM - 9:00 AM</option>
+<option value="5:00 PM - 6:00 PM">5:00 PM - 6:00 PM</option>
+<option value="6:00 PM - 7:00 PM">6:00 PM - 7:00 PM</option>
+<option value="7:00 PM - 8:00 PM">7:00 PM - 8:00 PM</option>
+</select>
+</div>
+
+<textarea name="healthNotes" rows="3"
+placeholder="Any injuries, medical conditions..."
+style="width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;margin-bottom:15px;">
+</textarea>
+
+<!-- PAYMENT -->
+<select name="paymentMethod" id="paymentMethod" required>
+<option value="">Select Payment Method</option>
+<option value="UPI">UPI</option>
+<option value="COD">COD</option>
+</select>
+
+<!-- QR SECTION -->
+<div id="qrSection" class="qr-section">
+
+<p>Scan & Pay using UPI</p>
+
+<img src="../assets/upi-qr.jpeg" alt="UPI QR">
+
+<div id="qrPrice" class="qr-price"></div>
+
+<!-- Upload Screenshot -->
+<div class="pay-check">
+<input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*">
+</div>
+
+<!-- Preview -->
+<img id="previewImg">
+
+</div>
+
+<button type="submit" class="book-btn">Reserve Now</button>
+
+</form>
+</div>
+</div>
+
+<!-- PRICE LOAD -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const className = localStorage.getItem("selectedClass");
+  const price = localStorage.getItem("selectedPrice");
+
+  if (className && price) {
+    document.getElementById("priceBox").innerHTML =
+      "Selected Class: <b>" + className + "</b><br>Total Price: ₹" + price;
+
+    document.getElementById("qrPrice").innerText =
+      "Amount to Pay: ₹" + price;
+  } else {
+    document.getElementById("priceBox").innerHTML =
+      "⚠️ No class selected.";
+  }
+
+});
+</script>
+
+<!-- SHOW QR -->
+<script>
+document.getElementById("paymentMethod").addEventListener("change", function(){
+
+  document.getElementById("qrSection").style.display =
+    this.value === "UPI" ? "block" : "none";
+
+});
+</script>
+
+<!-- IMAGE PREVIEW -->
+<script>
+document.getElementById("paymentScreenshot").addEventListener("change", function(){
+
+  const file = this.files[0];
+  const preview = document.getElementById("previewImg");
+
+  if(file){
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+      preview.src = e.target.result;
+      preview.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+});
+</script>
+
+<!-- BOOKING -->
+<!-- BOOKING -->
+<script>
+document.getElementById("bookingForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  localStorage.removeItem("bookingDetails");
+
+  // ✅ Get logged-in user (FIX IMPORTANT)
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+  if (!currentUser || !currentUser._id) {
+    alert("❌ Please login again");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
+
+  const screenshot = document.getElementById("paymentScreenshot").files[0];
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phonePattern = /^[6-9]\d{9}$/;
+
+  // ✅ CLEAN VALUES
+  const firstName = data.firstName?.trim();
+  const lastName = data.lastName?.trim();
+  const email = data.email?.trim();
+  const phone = data.phone?.trim();
+  const date = data.date;
+  const timeSlot = data.timeSlot;
+  const paymentMethod = data.paymentMethod;
+
+  // ✅ VALIDATION
+  if (!firstName || !lastName || !email || !phone || !date || !timeSlot || !paymentMethod) {
+    alert("❌ Please fill all required fields");
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    alert("❌ Invalid email");
+    return;
+  }
+
+  if (!phonePattern.test(phone)) {
+    alert("❌ Invalid phone number");
+    return;
+  }
+
+  if (paymentMethod === "UPI" && !screenshot) {
+    alert("❌ Upload payment screenshot");
+    return;
+  }
+
+  const selectedClass = localStorage.getItem("selectedClass");
+
+  if (!selectedClass) {
+    alert("❌ Please select a class first");
+    return;
+  }
+
+  // ✅ FINAL DATA (NO LOCAL STORAGE BOOKINGS HERE)
+  const finalData = {
+    name: firstName + " " + lastName,
+    email,
+    phone,
+    instructor: "Not Assigned",
+    date,
+    className: selectedClass,
+    session: selectedClass,
+    time: timeSlot,
+    paymentMethod,
+    userId: currentUser._id
+  };
+
+  console.log("SENDING DATA:", finalData);
+
+  try {
+    const formDataToSend = new FormData();
+
+    // append text data
+    for (let key in finalData) {
+      formDataToSend.append(key, finalData[key]);
+    }
+
+    // append file
+    if (screenshot) {
+      formDataToSend.append("paymentScreenshot", screenshot);
+    }
+
+    const response = await fetch("http://localhost:3000/api/bookings", {
+      method: "POST",
+      body: formDataToSend
+    });
+
+    let result;
+    try {
+      result = await response.json();
+    } catch (err) {
+      const text = await response.text();
+      console.error("SERVER RESPONSE:", text);
+      alert("Server error");
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error(result.message || "Booking failed");
+    }
+
+    // ❌ REMOVED: localStorage yogaBookings (BUG FIX DONE)
+
+    // ✅ only keep confirmation info (optional)
+    localStorage.setItem("bookingDetails", JSON.stringify({
+      name: finalData.name,
+      email: finalData.email,
+      phone: finalData.phone,
+      className: finalData.className,
+      date: finalData.date,
+      time: finalData.time,
+      paymentMethod: finalData.paymentMethod,
+      price: localStorage.getItem("selectedPrice")
+    }));
+
+    alert("✅ Booking Successful!");
+
+setTimeout(() => {
+  window.location.href = "succes.html"; // ✅ FIXED NAME
+}, 300);
+  } catch (error) {
+    alert("❌ " + error.message);
+  }
+  
+});
+</script>
+<footer class="main-footer">
+    <div class="footer-container">
+      <!-- About -->
+      <div class="footer-about">
+        <div class="footer-logo">
+          <img src="../assets/logo.png" alt="Logo">
+          <h2>E-YBOOK</h2>
+        </div>
+        <p>Transform your body and mind with our professional yoga instructors. Join us to begin your wellness journey today.</p>
+      </div>
+      
+      <!-- Our Pages -->
+      <div class="footer-links">
+        <h3>Our Pages</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="classes.html">Classes</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      
+      <!-- Explore -->
+      <div class="footer-links">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="instuctor.html">Instructor Profiles</a></li>
+          <li><a href="review.html">Reviews</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact -->
+      <div class="footer-contact">
+        <h3>Get In Touch</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Phondaghat, India</p>
+        <p><i class="fas fa-phone-alt"></i> +91 9130926601</p>
+        <p><i class="fas fa-envelope"></i> support@E-YBOOK@gmail.com</p>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 E-YBOOK | All Rights Reserved</p>
+    </div>
+  </footer>
+</body>
+</html>

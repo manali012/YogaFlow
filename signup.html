@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Yoga Logout</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root{
+  --primary:#7a8f7c;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:url("../assets/logbg.jpeg") center/cover no-repeat;
+  padding:20px;
+}
+
+body::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:0;
+}
+
+.container{
+  width:100%;
+  max-width:380px;
+  padding:40px;
+  position:relative;
+  z-index:1;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(18px);
+  border-radius:25px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.35);
+  text-align:center;
+  color:white;
+  animation:fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.icon{
+  font-size:50px;
+  margin-bottom:20px;
+  color:white;
+}
+
+h1{
+  margin-bottom:15px;
+}
+
+p{
+  font-size:14px;
+  margin-bottom:25px;
+  color:#f1f1f1;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:var(--primary);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  margin-bottom:15px;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#5f7361;
+}
+
+.cancel{
+  background:transparent;
+  border:1px solid white;
+}
+
+.cancel:hover{
+  background:rgba(255,255,255,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="icon">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </div>
+
+  <h1>Are You Sure?</h1>
+  <p>You are about to logout from your Yoga account.</p>
+
+  <button onclick="logout()">Yes, Logout</button>
+  <button class="cancel" onclick="goBack()">Cancel</button>
+
+</div>
+
+<script>
+
+ 
+function logout(){
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
+    alert("Logged out successfully!");
+    window.location.href = "login.html";
+}
+
+function goBack(){
+  window.history.back();
+}
+
+</script>
+
+</body>
+</html>

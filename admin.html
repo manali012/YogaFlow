@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yoga Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root{--primary:#7a8f7c;}
+        *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+        body{min-height:100vh;background:url("/assets/logbg.jpeg") center/cover no-repeat;display:flex;color:white;}
+        body::before{content:"";position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:-1;}
+        .sidebar{width:240px;background:rgba(0,0,0,0.6);display:flex;flex-direction:column;padding:20px;}
+        .sidebar h2{text-align:center;margin-bottom:20px;}
+        .sidebar button{background:var(--primary);border:none;padding:10px;margin-bottom:10px;border-radius:10px;color:white;cursor:pointer;text-align:left;}
+        .main-content{flex:1;padding:30px;overflow:auto;}
+        .container{background:rgba(255,255,255,0.15);backdrop-filter:blur(15px);border-radius:20px;padding:20px;}
+        h1{margin-bottom:15px;}
+        table{width:100%;border-collapse:collapse;margin-top:10px;}
+        th,td{padding:10px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.3);}
+        input, select{padding:8px;margin:5px;border:none;border-radius:8px;}
+        button.action-btn{background:#d45;padding:6px 10px;border-radius:6px;color:white;cursor:pointer;}
+        button.save-btn{background:var(--primary);color:white;padding:8px 12px;border:none;border-radius:6px;cursor:pointer;}
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Yoga Admin 🧘‍♀️</h2>
+        <button onclick="showSection('home')">Dashboard</button>
+
+        <button onclick="showSection('manageSchedule')">Yoga Schedule</button>
+        <button onclick="showSection('manageUsers')">Manage Users</button>
+        <button onclick="showSection('manageBookings')">Manage Bookings</button>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <div class="main-content" id="content"></div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const API_URL = "http://localhost:3000/api";
+        
+        // Global state
+        let editClassId = null;
+        let editScheduleId = null;
+        
+        // Auth check
+        (function initAuth() {
+            let currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            if(!currentUser || currentUser.role !== "Admin") {
+                window.location.href = "login.html";
+            }
+        })();
+        
+        // ==================== CORE NAVIGATION ====================
+        async function showSection(section) {
+            const content = document.getElementById("content");
+            
+            switch(section) {
+                case "home":
+                    await renderDashboard(content);
+                    break;
+                case "manageClasses":
+                    await renderManageClasses(content);
+                    break;
+                case "manageSchedule":
+                    await renderManageSchedule(content);
+                    break;
+                case "manageUsers":
+                    await renderManageUsers(content);
+                    break;
+                case "manageBookings":
+                    await renderManageBookings(content);
+                    break;
+                default:
+                    content.innerHTML = '<div class="container"><h1>Page not found</h1></div>';
+            }
+        }
+        
+        // ==================== DASHBOARD SECTION ====================
+        async function renderDashboard(container) {
+    try {
+        const [classes, schedules, users, bookings] = await Promise.all([
+            fetch(`${API_URL}/classes`).then(res => res.json()),
+            fetch(`${API_URL}/schedule`).then(res => res.json()),
+            fetch(`${API_URL}/users`).then(res => res.json()),
+            fetch(`${API_URL}/bookings`).then(res => res.json())
+        ]);
+
+        container.innerHTML = `
+            <div class="container">
+                <h1>Welcome Admin 🧘‍♀️</h1>
+                <p>Manage your yoga classes, schedule, users, and bookings efficiently.</p>
+
+                <div style="margin-top:20px; display:flex; gap:20px; flex-wrap:wrap;">
+
+                    <div style="background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;flex:1;min-width:150px;text-align:center;">
+                        <h2>${classes.length}</h2>
+                        <p>Total Classes</p>
+                    </div>
+
+                    <div style="background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;flex:1;min-width:150px;text-align:center;">
+                        <h2>${schedules.length}</h2>
+                        <p>Total Schedule</p>
+                    </div>
+
+                    <div style="background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;flex:1;min-width:150px;text-align:center;">
+                        <h2>${users.length}</h2>
+                        <p>Total Users</p>
+                    </div>
+
+                    <div style="background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;flex:1;min-width:150px;text-align:center;">
+                        <h2>${bookings.length}</h2>
+                        <p>Total Bookings</p>
+                    </div>
+
+                </div>
+            </div>
+        `;
+
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+            <div class="container">
+                <h1>Error loading dashboard</h1>
+            </div>
+        `;
+    }
+}
+        // ==================== MANAGE CLASSES SECTION ====================
+        
+        
+        // ==================== MANAGE SCHEDULE SECTION ====================
+        async function renderManageSchedule(container) {
+            try {
+                const schedules = await fetch(`${API_URL}/schedule`).then(res => res.json());
+                
+                container.innerHTML = `
+                    <div class="container">
+                        <h1>Yoga Weekly Schedule</h1>
+                        <input id="scheduleDate" type="date">
+                        <input id="time" placeholder="Time (6:00 AM)">
+                        <input id="mon" placeholder="Monday Yoga">
+                        <input id="tue" placeholder="Tuesday Yoga">
+                        <input id="wed" placeholder="Wednesday Yoga">
+                        <input id="thu" placeholder="Thursday Yoga">
+                        <input id="fri" placeholder="Friday Yoga">
+                        <input id="sat" placeholder="Saturday Yoga">
+                        <button id="saveBtn" class="save-btn" onclick="handleSchedule()">Add Schedule</button>
+                        <table>
+                            <thead>
+                                <tr><th>Date</th><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Action</th></tr>
+                            </thead>
+                            <tbody id="scheduleTable"></tbody>
+                        </table>
+                    </div>
+                `;
+                
+                renderScheduleTable(schedules);
+            } catch(err) {
+                container.innerHTML = '<div class="container"><h1>Error loading schedule</h1></div>';
+                console.error(err);
+            }
+        }
+        
+        function renderScheduleTable(schedules) {
+            const table = document.getElementById("scheduleTable");
+            if(!table) return;
+            table.innerHTML = "";
+            schedules.forEach(s => {
+                table.innerHTML += `
+                    <tr>
+                        <td>${s.date ? new Date(s.date).toLocaleDateString() : ""}</td>
+                        <td>${escapeHtml(s.time)}</td>
+                        <td>${escapeHtml(s.monday)}</td>
+                        <td>${escapeHtml(s.tuesday)}</td>
+                        <td>${escapeHtml(s.wednesday)}</td>
+                        <td>${escapeHtml(s.thursday)}</td>
+                        <td>${escapeHtml(s.friday)}</td>
+                        <td>${escapeHtml(s.saturday)}</td>
+                        <td>
+                            <button onclick="editSchedule('${s._id}','${s.date || ''}','${escapeHtml(s.time || '')}','${escapeHtml(s.monday || '')}','${escapeHtml(s.tuesday || '')}','${escapeHtml(s.wednesday || '')}','${escapeHtml(s.thursday || '')}','${escapeHtml(s.friday || '')}','${escapeHtml(s.saturday || '')}')">Edit</button>
+                            <button class="action-btn" onclick="deleteSchedule('${s._id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        async function handleSchedule() {
+    const data = {
+        date: document.getElementById("scheduleDate").value,
+        time: document.getElementById("time").value,
+        monday: document.getElementById("mon").value,
+        tuesday: document.getElementById("tue").value,
+        wednesday: document.getElementById("wed").value,
+        thursday: document.getElementById("thu").value,
+        friday: document.getElementById("fri").value,
+        saturday: document.getElementById("sat").value
+    };
+
+    if(!data.date){
+        alert("Select date!");
+        return;
+    }
+
+    try {
+        if(editScheduleId) {
+            await fetch(`${API_URL}/schedule/${editScheduleId}`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
+        } else {
+            await fetch(`${API_URL}/schedule`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
+        }
+
+        alert("✅ Schedule Saved!");
+
+        editScheduleId = null;
+        document.getElementById("saveBtn").innerText = "Add Schedule";
+
+        ["scheduleDate","time","mon","tue","wed","thu","fri","sat"].forEach(id=>{
+            document.getElementById(id).value = "";
+        });
+
+        const schedules = await fetch(`${API_URL}/schedule`).then(res => res.json());
+        renderScheduleTable(schedules);
+
+    } catch(err) {
+        alert("Error: " + err.message);
+    }
+}
+      
+        
+        function editSchedule(id, date, time, mon, tue, wed, thu, fri, sat) {
+            editScheduleId = id;
+            document.getElementById("scheduleDate").value = date ? date.split("T")[0] : "";
+            document.getElementById("time").value = time;
+            document.getElementById("mon").value = mon;
+            document.getElementById("tue").value = tue;
+            document.getElementById("wed").value = wed;
+            document.getElementById("thu").value = thu;
+            document.getElementById("fri").value = fri;
+            document.getElementById("sat").value = sat;
+            document.getElementById("saveBtn").innerText = "Update Schedule";
+        }
+        
+        async function deleteSchedule(id) {
+            if(confirm("Delete this schedule?")) {
+                try {
+                    await fetch(`${API_URL}/schedule/${id}`, { method: "DELETE" });
+                    const schedules = await fetch(`${API_URL}/schedule`).then(res => res.json());
+                    renderScheduleTable(schedules);
+                } catch(err) {
+                    alert("Error deleting schedule: " + err.message);
+                }
+            }
+        }
+        
+        // ==================== MANAGE USERS SECTION ====================
+        async function renderManageUsers(container) {
+            try {
+                const users = await fetch(`${API_URL}/users`).then(res => res.json());
+                
+                container.innerHTML = `
+                    <div class="container">
+                        <h1>Manage Users</h1>
+                        <table>
+                            <thead>
+                                <tr><th>Name</th><th>Email</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="userTable"></tbody>
+                        </table>
+                    </div>
+                `;
+                
+                renderUserTable(users);
+            } catch(err) {
+                container.innerHTML = '<div class="container"><h1>Error loading users</h1></div>';
+                console.error(err);
+            }
+        }
+        
+        function renderUserTable(users) {
+            const table = document.getElementById("userTable");
+            if(!table) return;
+            table.innerHTML = "";
+            users.forEach(u => {
+                table.innerHTML += `
+                    <tr>
+                        <td>${escapeHtml(u.name)}</td>
+                        <td>${escapeHtml(u.email)}</td>
+                        <td>
+                            <button class="action-btn" onclick="deleteUser('${u._id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        
+        async function deleteUser(id) {
+            if(confirm("Delete this user?")) {
+                try {
+                    await fetch(`${API_URL}/users/${id}`, { method: "DELETE" });
+                    const users = await fetch(`${API_URL}/users`).then(res => res.json());
+                    renderUserTable(users);
+                } catch(err) {
+                    alert("Error deleting user: " + err.message);
+                }
+            }
+        }
+        
+        // ==================== MANAGE BOOKINGS SECTION ====================
+       // ==================== MANAGE BOOKINGS (UPGRADED PRO VERSION) ====================
+async function renderManageBookings(container) {
+    try {
+        const bookings = await fetch(`${API_URL}/bookings`).then(res => res.json());
+
+        // ---------- ANALYTICS ----------
+        const total = bookings.length;
+
+        const today = new Date().toISOString().split("T")[0];
+        const todayBookings = bookings.filter(b => (b.date || "").includes(today)).length;
+
+        const revenue = bookings.reduce((sum, b) => {
+            return sum + (b.price ? Number(b.price) : 0);
+        }, 0);
+
+        const classCount = {};
+        bookings.forEach(b => {
+            classCount[b.session] = (classCount[b.session] || 0) + 1;
+        });
+
+        const mostBooked = Object.keys(classCount).sort((a,b)=>classCount[b]-classCount[a])[0] || "N/A";
+
+        container.innerHTML = `
+        <div class="container">
+
+            <h1>📅 Manage Bookings</h1>
+
+            <!-- FILTER BAR -->
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;">
+                <input id="searchBooking" placeholder="Search name/email..." oninput="filterBookings()">
+                <select id="statusFilter" onchange="filterBookings()">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+
+            <!-- ANALYTICS -->
+            <div style="display:flex;gap:15px;flex-wrap:wrap;margin-bottom:15px;">
+
+                <div style="flex:1;background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;text-align:center;">
+                    <h2>${total}</h2>
+                    <p>Total Bookings</p>
+                </div>
+
+                <div style="flex:1;background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;text-align:center;">
+                    <h2>${todayBookings}</h2>
+                    <p>Today's Bookings</p>
+                </div>
+
+                <div style="flex:1;background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;text-align:center;">
+                    <h2>₹${revenue}</h2>
+                    <p>Total Revenue</p>
+                </div>
+
+                <div style="flex:1;background:rgba(255,255,255,0.2);padding:15px;border-radius:12px;text-align:center;">
+                    <h2>${mostBooked}</h2>
+                    <p>Most Booked Class</p>
+                </div>
+
+            </div>
+
+            <!-- TABLE -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Seats</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingTable"></tbody>
+            </table>
+
+        </div>
+        `;
+
+        window.allBookings = bookings; // store globally
+        renderBookingTable(bookings);
+
+    } catch (err) {
+        container.innerHTML = '<div class="container"><h1>Error loading bookings</h1></div>';
+        console.error(err);
+    }
+}
+
+// ==================== TABLE RENDER ====================
+function renderBookingTable(bookings) {
+    const table = document.getElementById("bookingTable");
+    table.innerHTML = "";
+
+    bookings.forEach(b => {
+        table.innerHTML += `
+        <tr>
+            <td>${b.name}</td>
+            <td>${b.session}</td>
+            <td>${b.date}</td>
+            <td>${b.time}</td>
+            <td>${b.paymentMethod || "COD"}</td>
+
+            <td>
+                <span style="padding:4px 8px;border-radius:6px;background:${
+                    b.status === "Approved" ? "green" :
+                    b.status === "Rejected" ? "red" : "orange"
+                }">
+                ${b.status || "Pending"}
+                </span>
+            </td>
+
+            <td>${b.seats || "1"}</td>
+
+            <td>
+                <button onclick="approveBooking('${b._id}')">Approve</button>
+                <button onclick="rejectBooking('${b._id}')">Reject</button>
+                <button onclick="cancelBooking('${b._id}')">Cancel</button>
+                <button class="action-btn" onclick="deleteBooking('${b._id}')">Delete</button>
+            </td>
+        </tr>
+        `;
+    });
+}
+
+// ==================== FILTER SYSTEM ====================
+function filterBookings() {
+    const search = document.getElementById("searchBooking").value.toLowerCase();
+    const status = document.getElementById("statusFilter").value;
+
+    let filtered = window.allBookings || [];
+
+    if (search) {
+        filtered = filtered.filter(b =>
+            (b.name || "").toLowerCase().includes(search) ||
+            (b.email || "").toLowerCase().includes(search)
+        );
+    }
+
+    if (status) {
+        filtered = filtered.filter(b => b.status === status);
+    }
+
+    renderBookingTable(filtered);
+}
+
+// ==================== ACTIONS ====================
+async function approveBooking(id){
+    await fetch(`${API_URL}/bookings/approve/${id}`, { method:"PUT" });
+    showSection("manageBookings");
+}
+
+async function rejectBooking(id){
+    await fetch(`${API_URL}/bookings/reject/${id}`, { method:"PUT" });
+    showSection("manageBookings");
+}
+
+async function cancelBooking(id){
+    await fetch(`${API_URL}/bookings/cancel/${id}`, { method:"PUT" });
+    showSection("manageBookings");
+}
+
+async function deleteBooking(id) {
+    if(confirm("Delete this booking?")) {
+        await fetch(`${API_URL}/bookings/${id}`, { method: "DELETE" });
+        showSection("manageBookings");
+    }
+}
+        
+        // ==================== UTILITY FUNCTIONS ====================
+        function escapeHtml(str) {
+            if(!str) return "";
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+        
+        function logout() {
+            localStorage.removeItem("currentUser");
+            window.location.href = "login.html";
+        }
+        
+        // ==================== INITIAL LOAD ====================
+        showSection("home");
+    </script>
+</body>
+</html>
